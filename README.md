@@ -43,6 +43,7 @@ DB host: comsw4153-mta-db.cgbo8ymdlz3n.us-east-1.rds.amazonaws.com
 
 ### Google Map Service repo
 
+[Google Map Service Github Repo](https://github.com/nayak24/google-maps-microservice)
 
 ## Sprints
 
