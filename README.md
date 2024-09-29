@@ -23,13 +23,25 @@ Description: an accessible routes planning app for people with disabilities or i
 
 ## Microservices
 
-UI repo
+### UI repo
 
-Authentication repo
+### Authentication repo
 
-Transportation schedule repo
+### MTA Service repo
 
-Google map repo
+A microservice deployed with Docker container on AWS and connected to a managed MySQL database on AWS.
+
+[MTA Service Github Repo](https://github.com/AllenChenCU/COMSW4153-mta-service)
+
+API Root: http://3.84.62.68:5001/
+
+API Endpoints 1 (equipments): 3.84.62.68:5001/equipments/{station}
+
+API Endpoints 2 (outages): 3.84.62.68:5001/outages/{station}
+
+DB host: comsw4153-mta-db.cgbo8ymdlz3n.us-east-1.rds.amazonaws.com
+
+### Google Map Service repo
 
 
 ## Sprints
