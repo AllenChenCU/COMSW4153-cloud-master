@@ -4,7 +4,7 @@ document.getElementById('find_a_path').addEventListener('submit', function(e){
     const end = document.getElementById('end').value;
 
     document.getElementById('error-message').style.display = 'none';
-    
+
     fetch('/find-route', {
         method: 'POST',
         headers:{
