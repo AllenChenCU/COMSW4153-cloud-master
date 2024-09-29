@@ -50,6 +50,8 @@ DB host: comsw4153-mta-db.cgbo8ymdlz3n.us-east-1.rds.amazonaws.com
 
 [Sprint 1 Report Link](https://docs.google.com/document/d/1qmnGkaM4KqEcqyQfOALkpUzJpryKIf5ts7SVE_iI8XA/edit?usp=sharing)
 
+[Use Cases Link](https://docs.google.com/document/d/1POczxJOXz9MglZbHq6eorV5-OOlZiqp-nIOkiDoll5U/edit?usp=sharing)
+
 Due: 10/2
 
 ### Sprint 2
