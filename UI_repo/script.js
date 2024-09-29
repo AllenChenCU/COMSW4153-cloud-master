@@ -1,15 +1,15 @@
 function fetchMTAAlerts(station) {
-    fetch(`http://localhost:5001/outages/${station}`)
+    fetch(`http://3.84.62.68:5001/outages/${station}`)
         .then(response => response.json())
         .then(data => {
-            const alertsContent = document.getElementById('alerts-content');
-            alertsContent.innerHTML = '';
+            const alertsContent = document.getElementById('alerts_container');
+            alertsContent.innerHTML = ''
 
             if (Array.isArray(data) && data.length > 0) {
                 data.forEach(alert => {
                     const alertElement = document.createElement('div');
                     alertElement.classList.add('alert', 'alert-warning');
-                    alertElement.textContent = `Alert: ${alert.message}`;
+                    alertElement.textContent = `Alert: ${alert.serving} \n Reason: ${alert.reason} at ${alert.timestamp_at_save}`;
                     alertsContent.appendChild(alertElement);
                 });
             } else {
