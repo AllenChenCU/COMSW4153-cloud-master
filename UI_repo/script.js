@@ -23,19 +23,55 @@ function fetchMTAAlerts(station) {
         });
 }
 
-document.getElementById('find_a_path').addEventListener('submit', function(e){
+
+function showDetails(leg,index) {
+    const pathDetails = document.getElementById('path-details');
+    pathDetails.innerHTML = '';
+
+    pathDetails.innerHTML = `
+            <div class="card">
+            <div class="card-body">
+                <h5 class="card-title"> Route ${index + 1}</h5>
+                 <p class="card-text"><b>Start:</b> ${leg.start_address}</p>
+                  <p class="card-text"><b>End:</b> ${leg.end_address}</p>
+                <p class="card-text"><b>Arrival Time:</b> ${leg.arrival_time.text}</p>
+                <p class="card-text"><b>Departure Time:</b> ${leg.departure_time.text}</p>
+                <p class="card-text"><b>Distance:</b> ${leg.distance.text}</p>
+                <p class="card-text"><b>Duration:</b> ${leg.duration.text}</p>
+                <p class="card-text"> <b><u>Steps:</u></b>${leg.steps.map(
+                    (step, index) => { return `
+                        <p class="card-text"> <b> Step ${index + 1}: </b> </p>
+                        <p class="card-text"> ${step.html_instructions} </p>
+                        <p class="card-text"> Distance: ${step.distance.text} </p>
+                        <p class="card-text"> Duration: ${step.duration.text} </p>
+                    `
+                    }
+                )}
+                </p>
+            </div>
+            </div>
+         `;
+    
+}
+
+document.getElementById('submit_path').addEventListener('click', function(e){
+
     e.preventDefault();
-    const start = document.getElementById('start').value;
-    const end = document.getElementById('end').value;
+    const origin = document.getElementById('Origin').value;
+    const destination = document.getElementById('Destination').value;
+    const mode = document.getElementById('mode').value;
 
     document.getElementById('error-message').style.display = 'none';
 
-    fetch('/find-route', {
+    fetch('http://18.189.170.8:5000/routes', {
         method: 'POST',
         headers:{
             'Content-type': 'application/json'
         },
-        body: JSON.stringify({start, end})
+        body: JSON.stringify({
+            origin: origin,
+            destination: destination,
+            mode: mode})
     })
         .then(response => response.json())
         .then(data => {
@@ -43,7 +79,31 @@ document.getElementById('find_a_path').addEventListener('submit', function(e){
                 document.getElementById('error-message').style.display = 'block';
             }
             else{
-                alert('Success! Accessible route found!');
+                document.getElementById('path-accessible-content').style.display = 'block';
+                const pathContainer = document.getElementById('path_container');
+                pathContainer.innerHTML = '';
+                data.routes.forEach(path => {
+                    path.legs.forEach((leg, index) => {
+                        const pathElement = document.createElement('div');
+                        pathElement.classList.add("col-md-4", "mb-3");
+                        pathElement.innerHTML = `
+                            <div class="card clickable-item">
+                            <div class="card-body">
+                                <h5 class="card-title">Route ${index + 1}: ${leg.start_address} to ${leg.end_address}</h5>
+                                <p class="card-text">Click for more details</p>
+                            </div>
+                            </div>
+                        `;
+
+
+                        pathElement.addEventListener('click', () => {
+                            showDetails(leg, index);
+                        })
+                        pathContainer.appendChild(pathElement);
+                        
+                    })
+
+                });
             }
         })
         .catch(error => {

@@ -31,19 +31,46 @@
             <br>
 
             <form id = "find_a_path">
-                <label for = "start"> Start </label>
-                <input type = "text" id = "start" name = "start" required>
+                <label for = "Origin"> Origin </label>
+                <input type = "text" id = "Origin" name = "Origin" required>
                 <br>
-                <label for = "end">End</label>
-                <input type = "text" id = "end" name = "end" required>
+                <label for = "Destination"> Destination</label>
+                <input type = "text" id = "Destination" name = "Destination" required>
                 <br>
                 <br>
-                <button type = "submit"> Find an accessible route </button>
+                <select id="mode">
+                    <option value="transit">transit</option>
+                    <option value="walking">walking</option>
+                    <option value="driving">driving</option>
+                  </select>
+                <br>
+                <br>
+                <button type = "submit" id = "submit_path"> Find an accessible route </button>
                 <br>
                 <br>
 
             </form>
         </div>
+
+<div id="path-accessible-content" style="display: none;">
+
+    <div class = "col-md-12">
+        <br>
+          <h1>Accessible Paths</h1>
+          
+          <div class = "row">
+          <div id = "path_container" class="col-md-6">
+            </div>
+            
+            <div id="path-details-container" class="col-md-6">
+                <div id="path-details">
+                </div>
+
+            </div>
+          </div>
+      </div>
+</div>
+
 <div id = "error-message" style = "color: red; display: none;"> Error: Could not find an accessible route.</div>
         <div class = "col-md-8">
           <br>
