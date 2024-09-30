@@ -1,3 +1,16 @@
+document.getElementById("login").addEventListener("submit", function(event) {
+    event.preventDefault();
+
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+
+    if (email === "test@example.com" && password === "password123") {
+        window.location.href = "index.html";
+    } else {
+        alert("Invalid email or password. Please try again.");
+    }
+});
+
 function fetchMTAAlerts(station) {
     fetch(`http://3.84.62.68:5001/outages/${station}`)
         .then(response => response.json())
