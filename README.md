@@ -6,7 +6,7 @@ Team Name: cloudGPT
 
 Team Members: Allen Chen(atc2160), Malini Kundamal (mk4329), Amari Byrd(ab5311), Demetria Mack (dmm2285), Anish Nayak(an3270)
 
-Application Name: Accessible Routes App
+Application Name: Accessible Routes App (AccessNYC)
 
 Description: an accessible routes planning app for people with disabilities or injuries. 
 
