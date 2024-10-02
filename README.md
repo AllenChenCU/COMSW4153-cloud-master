@@ -26,6 +26,7 @@ Description: an accessible routes planning app for people with disabilities or i
 ### UI repo
 
 ### Authentication repo
+Authentication :https://github.com/AllenChenCU/COMSW4153-cloud-master/commit/d8350d94d541484acc87e628e43e1d71395cb8f0
 
 ### MTA Service repo
 
