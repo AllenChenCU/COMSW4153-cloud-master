@@ -143,19 +143,46 @@ function fetchRoutes(origin, destination, mode, page, limit){
 
                         pathElement.addEventListener('click', () => {
                             showDetails(leg, index);
-                        })
+                        });
                         pathContainer.appendChild(pathElement);
                         
-                    })
+                    });
 
                 });
+                handlePagination(data.pagination);
             }
         })
         .catch(error => {
             document.getElementById('error-message').style.display = 'block';
+            console.error(error);
         });
 };
 
+function handlePagination(pagination){
+    const paginationContainer = document.getElementById('pagination_container');
+    paginationContainer.innerHTML = '';
+
+    if(pagination && pagination.totalPages > 1){
+        if(currentPage > 1){
+            const prevButton = document.createElement('button');
+            prevButton.textContent = 'Previous';
+            prevButton.onclick = () => {
+                currentPage--;
+                fetchRoutes(document.getElementById('Origin').value, document.getElementById('Destination').value, document.getElementById('mode').value, currentPage, limit);
+            };
+            paginationContainer.appendChild(prevButton);
+        }
+        if(currentPage < pagination.totalPages){
+            const nextButton = document.createElement('button');
+            nextButton.textContent = 'Next';
+            nextButton.onclick = () => {
+                currentPage++;
+                fetchRoutes(document.getElementById('Origin').value, document.getElementById('Destination').value, document.getElementById('mode').value, currentPage, limit);
+            };
+            paginationContainer.appendChild(nextButton);
+        }
+    }
+}
 document.addEventListener('DOMContentLoaded', function() {
     const defaultStation = '74 St-Broadway';
     fetchMTAAlerts(defaultStation);
