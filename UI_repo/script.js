@@ -76,7 +76,7 @@ document.getElementById('submit_path').addEventListener('click', function(e){
 
     document.getElementById('error-message').style.display = 'none';
 
-    fetch('http://18.189.170.8:5000/routes', {
+    fetch('http://3.133.129.121:5000/routes', {
         method: 'POST',
         headers:{
             'Content-type': 'application/json'
