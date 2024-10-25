@@ -1,3 +1,6 @@
+let currentPage = 1;
+const limit = 10;
+
 document.getElementById("login").addEventListener("submit", function(event) {
     event.preventDefault();
 
@@ -76,6 +79,11 @@ document.getElementById('submit_path').addEventListener('click', function(e){
 
     document.getElementById('error-message').style.display = 'none';
 
+    fetchRoutes(origin, destination, mode, currentPage, limit);
+});
+
+function fetchRoutes(origin, destination, mode, page, limit){
+
     fetch('http://3.133.129.121:5000/routes', {
         method: 'POST',
         headers:{
@@ -84,9 +92,33 @@ document.getElementById('submit_path').addEventListener('click', function(e){
         body: JSON.stringify({
             origin: origin,
             destination: destination,
-            mode: mode})
+            mode: mode,
+            page: page,
+            limit: limit
+        })
     })
-        .then(response => response.json())
+        .then(response => {
+            if (response.status === 201){
+                console.log('Resource created successfully.');
+            }
+            else if(response.status === 202){
+                alert('Your request is being processed');
+                return;
+            }
+            else if (response.status === 400){
+                throw new Error('Invalid request: Origin and Destination are required');
+            }
+            else if(response.status === 404){
+                throw new Error('No routes found for the given locations.');
+            }
+            else if(response.status === 500){
+                throw new Error('Internal server error. Please try again later.');
+            }
+            else if(!response.ok){
+                throw new Error('HTTP error! Status: ${response.status}');
+            }
+            return response.json();
+        })
         .then(data => {
             if(data.error){
                 document.getElementById('error-message').style.display = 'block';
@@ -122,7 +154,7 @@ document.getElementById('submit_path').addEventListener('click', function(e){
         .catch(error => {
             document.getElementById('error-message').style.display = 'block';
         });
-});
+};
 
 document.addEventListener('DOMContentLoaded', function() {
     const defaultStation = '74 St-Broadway';
