@@ -46,6 +46,14 @@ DB host: comsw4153-mta-db.cgbo8ymdlz3n.us-east-1.rds.amazonaws.com
 
 [Google Map Service Github Repo](https://github.com/nayak24/google-maps-microservice)
 
+### Composite Service repo
+
+[Composite Service Github Repo](https://github.com/AllenChenCU/COMSW4153-cloud-composite)
+
+API root: http://34.55.117.204:5001/
+
+DB hosted on GCP Cloud SQL
+
 ## Sprints
 
 ### Sprint 1
@@ -58,6 +66,6 @@ Due: 10/2
 
 ### Sprint 2
 
-Sprint 2 Report Link
+[Sprint 2 Doc Link](https://docs.google.com/document/d/1kRYZTn_thrDdsHxVGq6pDK8E-g3Bc4IyDT-SxLaUr5s/edit?usp=sharing)
 
-Due: 
+Due: 10/30
