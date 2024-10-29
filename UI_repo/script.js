@@ -1,5 +1,6 @@
 let currentPage = 1;
 const limit = 10;
+let current_route = 0;
 
 document.getElementById("login").addEventListener("submit", function(event) {
     event.preventDefault();
@@ -82,9 +83,10 @@ document.getElementById('submit_path').addEventListener('click', function(e){
     fetchRoutes(origin, destination, mode, currentPage, limit);
 });
 
-function fetchRoutes(origin, destination, mode, page, limit){
+function fetchRoutes(origin, destination, mode){
+    fetch('http://3.145.179.175:5000/routes', {
+        
 
-    fetch('http://3.133.129.121:5000/routes', {
         method: 'POST',
         headers:{
             'Content-type': 'application/json'
@@ -93,8 +95,6 @@ function fetchRoutes(origin, destination, mode, page, limit){
             origin: origin,
             destination: destination,
             mode: mode,
-            page: page,
-            limit: limit
         })
     })
         .then(response => {
@@ -126,9 +126,13 @@ function fetchRoutes(origin, destination, mode, page, limit){
             else{
                 document.getElementById('path-accessible-content').style.display = 'block';
                 const pathContainer = document.getElementById('path_container');
+                document.getElementById('path-title').textContent = `Accessible Paths for ${origin} to ${destination} (${mode})`;
+                //make button disabled
+                document.getElementById('show_all').disabled = true;
+
                 pathContainer.innerHTML = '';
-                data.routes.forEach(path => {
-                    path.legs.forEach((leg, index) => {
+                data.routes.forEach((path,index) => {
+                    path.legs.forEach(leg => {
                         const pathElement = document.createElement('div');
                         pathElement.classList.add("col-md-4", "mb-3");
                         pathElement.innerHTML = `
@@ -149,7 +153,6 @@ function fetchRoutes(origin, destination, mode, page, limit){
                     });
 
                 });
-                handlePagination(data.pagination);
             }
         })
         .catch(error => {
@@ -158,32 +161,121 @@ function fetchRoutes(origin, destination, mode, page, limit){
         });
 };
 
-function handlePagination(pagination){
+function handlePagination(pagination) {
     const paginationContainer = document.getElementById('pagination_container');
     paginationContainer.innerHTML = '';
-
-    if(pagination && pagination.totalPages > 1){
-        if(currentPage > 1){
+    try {
+    if (pagination && pagination.totalPages > 1) {
+        // Previous Button
+        if (currentPage > 1) {
             const prevButton = document.createElement('button');
             prevButton.textContent = 'Previous';
             prevButton.onclick = () => {
                 currentPage--;
-                fetchRoutes(document.getElementById('Origin').value, document.getElementById('Destination').value, document.getElementById('mode').value, currentPage, limit);
+                fetchViewedRoutes(currentPage, limit);
+
             };
             paginationContainer.appendChild(prevButton);
         }
-        if(currentPage < pagination.totalPages){
+
+        // Next Button
+        if (currentPage < pagination.totalPages) {
             const nextButton = document.createElement('button');
             nextButton.textContent = 'Next';
             nextButton.onclick = () => {
                 currentPage++;
-                fetchRoutes(document.getElementById('Origin').value, document.getElementById('Destination').value, document.getElementById('mode').value, currentPage, limit);
+                fetchViewedRoutes(currentPage, limit);
             };
             paginationContainer.appendChild(nextButton);
         }
     }
+} 
+    catch (error) {
+        console.error('Error:', error);
+    }
 }
+
+function fetchViewedRoutes(currentPage, limit) {
+    fetch(`http://3.145.179.175:5000/viewed_routes/page/${currentPage}?limit=${limit}`, {
+        method: 'GET',
+        headers:{
+            'Content-type': 'application/json'
+        }
+    })
+        .then(response => {
+            if (response.status === 201){
+                console.log('Resource created successfully.');
+            }
+            else if(response.status === 202){
+                alert('Your request is being processed');
+                return;
+            }
+            else if (response.status === 400){
+                throw new Error('Invalid request: Origin and Destination are required');
+            }
+            else if(response.status === 404){
+                throw new Error('No routes found for the given locations.');
+            }
+            else if(response.status === 500){
+                throw new Error('Internal server error. Please try again later.');
+            }
+            else if(!response.ok){
+                throw new Error('HTTP error! Status: ${response.status}');
+            }
+            return response.json();
+        })
+        .then(data => {
+            if(data.error){
+                document.getElementById('error-message').style.display = 'block';
+                document.getElementById('error-message').textContent = data.error;
+            }
+            else{
+                document.getElementById('path-accessible-content').style.display = 'block';
+                document.getElementById('path-title').textContent = `Viewed Routes`;
+                document.getElementById('submit_path').disabled = true;
+
+                const pathContainer = document.getElementById('path_container');
+                pathContainer.innerHTML = '';
+                window.history.replaceState({}, '', `/#/viewed_routes/page/${currentPage}`);
+                data.routes.forEach((path,index) => {
+                  
+                        const pathElement = document.createElement('div');
+                        pathElement.classList.add("col-md-4", "mb-3");
+                        pathElement.innerHTML = `
+                            <div class="card item">
+                            <div class="card-body">
+                                <h5 class="card-title">Route ${currentPage * limit - limit + index + 1}: ${path.origin} to ${path.destination}</h5>: ${path.origin} to ${path.destination}</h5>
+                            </div>
+                            </div>
+                        `;
+
+                        pathContainer.appendChild(pathElement);
+                        
+              
+
+                });
+
+                handlePagination(data.pagination);
+            }
+        })
+        .catch(error => {
+            document.getElementById('error-message').style.display = 'block';
+            document.getElementById('error-message').textContent = 'Error: Could not find routes you viewed.';
+            console.error(error);
+        });
+
+}
+
+document.getElementById('show_all').addEventListener('click', function(e){
+
+    e.preventDefault();
+
+    fetchViewedRoutes(currentPage, limit);
+});
+
 document.addEventListener('DOMContentLoaded', function() {
+    window.history.replaceState({}, '', `/`);
     const defaultStation = '74 St-Broadway';
     fetchMTAAlerts(defaultStation);
+    
 });
