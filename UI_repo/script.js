@@ -99,7 +99,13 @@ function fetchRoutes(origin, destination, mode){
     })
         .then(response => {
             if (response.status === 201){
-                console.log('Resource created successfully.');
+                const newResourceURL = response.headers.get('Location');
+                return response.json().then(data => {
+                    //alert('Route created successfully!');
+                    console.log('New route: ', data);
+                    console.log('New resource URL: ', newResourceURL);
+                    return data;
+                })
             }
             else if(response.status === 202){
                 alert('Your request is being processed');
@@ -117,7 +123,7 @@ function fetchRoutes(origin, destination, mode){
             else if(!response.ok){
                 throw new Error('HTTP error! Status: ${response.status}');
             }
-            return response.json();
+            return data;
         })
         .then(data => {
             if(data.error){
