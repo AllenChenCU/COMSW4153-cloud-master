@@ -1,0 +1,125 @@
+/* src/components/Navbar.css */
+
+/* src/components/Navbar.css */
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #1A1A1A;
+  padding: 10px 20px;
+  height: 80px; 
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); 
+  color: white;
+}
+
+.navbar-left {
+  display: flex;
+  align-items: center;
+}
+
+.menu-button {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 16px;
+  margin-right: 15px;
+  cursor: pointer;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+}
+
+.logo-icon {
+  width: 40px; /* Adjust to match the logo size on MTA */
+  height: 40px;
+  margin-right: 8px;
+}
+
+.logo-text {
+  color: white;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.navbar-right {
+  display: flex;
+  gap: 15px;
+}
+
+.nav-button {
+  background-color: #4B2E83;
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+}
+
+.nav-button:hover {
+  background-color: #3a2170;
+
+}
+
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 300px; 
+    height: 100%;
+    background-color: rgba(26, 26, 26, 0.95); 
+    color: white;
+    padding-top: 20px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
+    z-index: 20; 
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding-left: 20px;
+  }
+  
+  /* Overlay */
+  .overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* background-color: rgba(0, 0, 0, 0.5); Semi-transparent background to cover the rest of the screen */
+    z-index: 10;
+  }
+  
+  .sidebar ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .sidebar li a {
+    color: white; 
+    text-decoration: none; 
+    display: block; 
+    padding: 15px 10px 15px 10px;
+    font-size: 16px;
+    cursor: pointer;
+    width: 100%; 
+  }
+  
+  .sidebar li a:hover {
+    color: lightgray;
+  }
+  
+  /* Close Button */
+  .close-button {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 24px;
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    cursor: pointer;
+  }
