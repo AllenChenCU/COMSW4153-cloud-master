@@ -12,7 +12,7 @@ function HeroSection() {
         </p>
         <button
           className="cta-button"
-          onClick={() => window.location.href = 'http://172.16.234.140:8080/auth/google'}
+          onClick={() => window.location.href = 'https://b8622eabb9470b.lhr.life/auth/google/callback'}
         >
           Sign up today
         </button>

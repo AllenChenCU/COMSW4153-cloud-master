@@ -42,7 +42,7 @@ app.get('/profile', (req, res) => {
   res.send(`Hello ${req.user.displayName}, your email is ${req.user.emails[0].value}`);
 });
 
-// Start the server
-app.listen(8080, '172.16.234.140', () => {
-  console.log('Server running on http://172.16.234.140:8080');
+
+app.listen(8080, 'localhost', () => {
+  console.log('Server running on http://localhost:8080');
 });

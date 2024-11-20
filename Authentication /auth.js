@@ -4,7 +4,7 @@ const GoogleStrategy = require('passport-google-oauth20').Strategy;
 passport.use(new GoogleStrategy({
     clientID: '1009253074391-v1vikqme5euagepgddnasta6mgtf3btv.apps.googleusercontent.com',
     clientSecret: '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',
-    callbackURL: "http://172.16.234.140:8080/auth/google/callback"
+    callbackURL: "https://ce4296af1397e7.lhr.life/auth/google/callback"
   },
   function(accessToken, refreshToken, profile, done) {
     // need to complete with database tables 
@@ -12,6 +12,9 @@ passport.use(new GoogleStrategy({
   }
 ));
 
+app.get('/auth/google', 
+    passport.authenticate('google', { scope: ['profile', 'email'] })
+);
 passport.serializeUser((user, done) => {
   done(null, user.id);
 });
