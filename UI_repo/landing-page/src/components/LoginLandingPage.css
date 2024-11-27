@@ -1,0 +1,82 @@
+/* LoginLandingPage.css */
+
+.login-landing-page {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa; /* Light background for contrast */
+    min-height: 100vh;
+    padding: 20px;
+  }
+  
+  .welcome-section {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .welcome-section h1 {
+    font-size: 36px;
+    color: #4a4a4a;
+  }
+  
+  .welcome-section p {
+    font-size: 18px;
+    color: #7a7a7a;
+  }
+  
+  .map-section {
+    text-align: center;
+    margin: 20px auto;
+    max-width: 1200px;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .map-placeholder {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+  }
+  
+  .saved-routes {
+    text-align: center;
+    margin: 40px auto;
+  }
+  
+  .saved-routes h2 {
+    font-size: 24px;
+    color: #4a148c;
+  }
+  
+  .routes-container {
+    background-color: #ffffff;
+    margin: 20px auto;
+    max-width: 800px;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    font-size: 16px;
+    color: #4a4a4a;
+  }
+  
+  .action-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    margin: 20px 0;
+  }
+  
+  .action-buttons button {
+    background-color: #5c2d91; /* Microsoft Purple */
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 15px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .action-buttons button:hover {
+    background-color: #4b2478;
+  }

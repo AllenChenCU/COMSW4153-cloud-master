@@ -1,7 +1,6 @@
 // src/App.js
-
-import './App.css';
 import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import HeroSection from './components/HeroSection';
 import Tagline from './components/Tagline';
@@ -10,8 +9,10 @@ import ServiceStatus from './components/ServiceStatus';
 import Features from './components/Features';
 import Testimonials from './components/Testimonials';
 import Footer from './components/Footer';
+import LoginLandingPage from './components/LoginLandingPage';
+import './App.css';
 
-function App() {
+function MainLandingPage() {
   return (
     <div className="App">
       <Navbar />
@@ -25,6 +26,17 @@ function App() {
       <Testimonials />
       <Footer />
     </div>
+  );
+}
+
+function App() {
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<MainLandingPage />} />
+        <Route path="/login" element={<LoginLandingPage />} />
+      </Routes>
+    </Router>
   );
 }
 

@@ -1,14 +1,14 @@
 /* src/components/TripPlanner.css */
 
 .trip-planner {
-    background-color: #E0E0E0;
-    padding: 30px;
-    border-radius: 8px;
-    width: 300px;
-    min-height: 500px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-  }
-  
+  flex: 1; /* Allows resizing within the .main-section */
+  max-width: 48%; /* Restricts width to 48% */
+  padding: 20px;
+  background-color: #f4f4f4;
+  border-radius: 8px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
+}
   .trip-title {
     font-size: 24px;
     font-weight: bold;

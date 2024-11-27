@@ -29,12 +29,25 @@
 }
 
 
-
 .main-section {
-  display: flex;
-  justify-content: center;
-  gap: 20px; 
+  display: flex; /* Align components side by side */
+  justify-content: space-between; /* Add space between components */
+  align-items: flex-start; /* Align both components to the top */
   padding: 20px;
+  gap: 20px; /* Consistent gap between components */
+  max-width: 1200px; /* Limit the width of the container */
+  margin: 0 auto; /* Center align the container horizontally */
+  box-sizing: border-box;
+}
+
+.trip-planner {
+  flex: 1; /* Adjusts width proportionally */
+  max-width: 400px; /* Restricts maximum width for consistency */
+}
+
+.service-status {
+  flex: 1; /* Adjusts width proportionally */
+  max-width: 600px; /* Restricts maximum width for consistency */
 }
 
 @keyframes App-logo-spin {
