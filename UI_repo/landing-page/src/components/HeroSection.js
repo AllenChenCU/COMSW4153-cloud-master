@@ -14,7 +14,7 @@ function HeroSection() {
           className="cta-button"
           onClick={() => (window.location.href = 'https://378e-38-27-115-22.ngrok-free.app/auth/google')}
         >
-          Sign up today
+          Log in with Google
         </button>
       </div>
       <div className="hero-image">
