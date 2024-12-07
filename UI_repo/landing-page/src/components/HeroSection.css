@@ -1,0 +1,51 @@
+/* src/components/HeroSection.css */
+
+.hero-section {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 50px;
+    background-color: #F0F0F0; 
+  }
+  
+  .hero-content {
+    max-width: 50%; 
+  }
+  
+  .hero-title {
+    font-size: 36px;
+    font-weight: bold;
+    color: #1A1A1A;
+    margin-bottom: 20px;
+  }
+  
+  .hero-subtitle {
+    font-size: 18px;
+    color: #4B4B4B;
+    margin-bottom: 30px;
+  }
+  
+  .cta-button {
+    background-color: #4B2E83;
+    color: white;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .cta-button:hover {
+    background-color: #3a2170;
+  }
+  
+  .hero-image {
+    max-width: 50%; 
+  }
+  
+  .hero-image img {
+    width: 100%;
+    height: auto;
+    border-radius: 10px; 
+  }
