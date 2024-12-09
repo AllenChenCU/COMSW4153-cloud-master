@@ -1,4 +1,6 @@
+const passport = require('../Authentication/auth.js');
 const express = require('express');
+const session = require('express-session');
 const axios = require("axios");
 
 const app = express();
@@ -6,6 +8,23 @@ const port = 3000;
 
 const COMPOSITE_SERVICE_URL = "https://comsw4153-cloud-composite-service-973496949602.us-central1.run.app";
 app.use(express.json());
+
+app.use(session({
+  secret: 'secret',
+  resave: false,
+  saveUninitialized: true,
+}));
+app.use(passport.initialize());
+app.use(passport.session());
+
+function isAuthenticated(req, res, next){
+  if(req.isAuthenticated()){
+    return next();
+  }
+  res.status(401).json({
+    error: "User is not authenticated"
+  });
+}
 
 //example:
 //curl "http://localhost:3000/query-routes-and-stations?source=Columbia%20University&destination=John%20F.%20Kennedy%20International%20Airport&user_id=123"
