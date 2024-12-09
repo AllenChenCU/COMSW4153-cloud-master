@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import './LoginLandingPage.css';
 import Navbar from './Navbar';
+import TripPlanner from './TripPlanner';
+import ServiceStatus from './ServiceStatus';
 
 function LoginLandingPage() {
   const [user, setUser] = useState(null);
@@ -28,6 +30,11 @@ function LoginLandingPage() {
         )}
       </div>
 
+      <div className="main-section">
+        <TripPlanner />
+        <ServiceStatus />
+      </div>
+
       {/* Map Section */}
       <div className="map-section">
         <img
@@ -46,12 +53,12 @@ function LoginLandingPage() {
       </div>
 
       {/* Buttons Section */}
-      <div className="action-buttons">
+      {/*<div className="action-buttons">
         <button>Log in to Permanent Access-A-Ride Service</button>
         <button>Learn About the LIRR Care Program</button>
         <button>Check Elevator or Escalator Status</button>
         <button>Sign up for Our Newsletter</button>
-      </div>
+      </div>*/}
     </div>
   );
 }

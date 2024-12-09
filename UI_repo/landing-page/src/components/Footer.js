@@ -9,7 +9,7 @@ function Footer() {
                     <h2>AccessNYC</h2>
                     <p>© 2024 AccessNYC</p>
                 </div>
-                <div className="footer-links">
+                {/*<div className="footer-links">
                     <div className="footer-column">
                         <h3>Product</h3>
                         <ul>
@@ -42,7 +42,7 @@ function Footer() {
                             <li><a href="#">Security</a></li>
                         </ul>
                     </div>
-                </div>
+                </div>*/}
             </div>
         </footer>
     );
