@@ -1,9 +1,12 @@
 const express = require('express');
 const session = require('express-session');
-const passport = require('./auth'); // Import Passport configuration
+const passport = require('./auth'); 
 const path = require('path');
+const { createProxyMiddleware } = require('http-proxy-middleware');
+const { exec } = require('child_process');
 
 const app = express();
+const PORT = 8080; 
 
 app.use(session({
   secret: 'your-session-secret',
@@ -38,10 +41,33 @@ app.get('/profile', (req, res) => {
   });
 });
 
+app.use((req, res, next) => {
+  res.setHeader('Cache-Control', 'no-store');
+  next();
+});
 
-app.use(express.static(path.resolve(__dirname, '../UI_repo/landing-page/build')));
-app.get('*', (req, res) => {
-  res.sendFile(path.resolve(__dirname, '../UI_repo/landing-page/build', 'index.html'));
+// changed 
+if (process.env.NODE_ENV === 'development') {
+  app.use(
+    '/',
+    createProxyMiddleware({
+      target: 'http://localhost:3000',
+      changeOrigin: true,
+    })
+  );
+} else {
+  app.use(express.static(path.resolve(__dirname, '../UI_repo/landing-page/build')));
+  app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, '../UI_repo/landing-page/build', 'index.html'));
+  });
+}
+
+exec('cd ../UI_repo/landing-page && npm run build', (err, stdout, stderr) => {
+  if (err) {
+    console.error('Error rebuilding the project:', stderr);
+    return;
+  }
+  console.log('Frontend rebuilt successfully:', stdout);
 });
 
 app.listen(8080, () => {
