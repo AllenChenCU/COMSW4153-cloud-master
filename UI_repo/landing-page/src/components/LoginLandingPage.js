@@ -1,10 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import './LoginLandingPage.css';
+import '../App.css';
 import Navbar from './Navbar';
+import TripPlanner from './TripPlanner';
+import ServiceStatus from './ServiceStatus';
+import SearchResults from './SearchResults';
+import useStore from '../state/useStore';
+import SavedRoutes from './SavedRoutes';
 
 function LoginLandingPage() {
+  // set user state jwt token here 
   const [user, setUser] = useState(null);
+  const { loading, searchRoutes } = useStore
 
+  // TODO update and change 
   useEffect(() => {
     fetch('/profile')
       .then((response) => response.json())
@@ -31,30 +40,46 @@ function LoginLandingPage() {
         )}
       </div>
 
-      {/* Map Section */}
-      <div className="map-section">
-        <img
-          src="https://via.placeholder.com/1200x600" // Replace with your actual map/image
-          alt="Map"
-          className="map-placeholder"
-        />
-      </div>
-
-      {/* Saved Routes Section */}
       <div className="saved-routes">
-        <h2>View Saved Routes and Service Updates</h2>
+        <h2>View Saved Routes</h2>
         <div className="routes-container">
-          <p>Saved routes and updates will appear here.</p>
+          <SavedRoutes />
         </div>
       </div>
 
+      <div className="main-section">
+        <TripPlanner />
+        <div className="saved-routes">
+        <h2>Search results:</h2>
+        <div>
+          <ServiceStatus />
+          <div className="map-section">
+            <SearchResults />
+          </div>
+          </div>
+        {/* {searchRoutes ? (
+          <div>
+          <ServiceStatus />
+          <div className="map-section">
+            <SearchResults />
+          </div>
+          </div>
+        ) : (
+           null
+        )} */}
+          
+        </div>
+      </div>
+
+      {/* Map Section */}
+
       {/* Buttons Section */}
-      <div className="action-buttons">
+      {/* <div className="action-buttons">
         <button>Log in to Permanent Access-A-Ride Service</button>
         <button>Learn About the LIRR Care Program</button>
         <button>Check Elevator or Escalator Status</button>
         <button>Sign up for Our Newsletter</button>
-      </div>
+      </div> */}
     </div>
   );
 }

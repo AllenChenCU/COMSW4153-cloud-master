@@ -1,6 +1,4 @@
 .service-status {
-  flex: 1; /* Allows resizing within the .main-section */
-  max-width: 48%; /* Restricts width to 48% */
   padding: 20px;
   background-color: #ffffff;
   border-radius: 8px;

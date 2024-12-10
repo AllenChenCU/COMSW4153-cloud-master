@@ -4,8 +4,8 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import HeroSection from './components/HeroSection';
 import Tagline from './components/Tagline';
-import TripPlanner from './components/TripPlanner';
-import ServiceStatus from './components/ServiceStatus';
+// import TripPlanner from './components/TripPlanner';
+// import ServiceStatus from './components/ServiceStatus';
 import Features from './components/Features';
 import Testimonials from './components/Testimonials';
 import Footer from './components/Footer';
@@ -18,10 +18,10 @@ function MainLandingPage() {
       <Navbar />
       <HeroSection />
       <Tagline />
-      <div className="main-section">
+      {/* <div className="main-section">
         <TripPlanner />
         <ServiceStatus />
-      </div>
+      </div> */}
       <Features />
       <Testimonials />
       <Footer />

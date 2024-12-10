@@ -22,10 +22,10 @@ function Navbar() {
           </div>
         </div>
         <div className="navbar-right">
-          <button className="nav-button">Real-time Updates</button>
-          <button className="nav-button">Accessible Routes</button>
+          <button className="nav-button">Search History</button>
+          {/* <button className="nav-button">Accessible Routes</button>
           <button className="nav-button">Route Notifications</button>
-          <button className="nav-button">Real-Time Status</button>
+          <button className="nav-button">Real-Time Status</button> */}
         </div>
       </nav>
 

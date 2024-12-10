@@ -17,7 +17,7 @@ function TripPlanner() {
           <input type="text" placeholder="Address, station, landmark" className="trip-input" />
         </div>
         
-        <div className="time-options">
+        {/* <div className="time-options">
           <label className="time-label">
             <input type="radio" name="time" value="leaveNow" checked /> Leave Now
           </label>
@@ -28,7 +28,7 @@ function TripPlanner() {
         
         <label className="accessible-trip">
           <input type="checkbox" /> Accessible Trip
-        </label>
+        </label> */}
         
         <button type="submit" className="trip-button">Plan My Trip</button>
       </form>

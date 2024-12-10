@@ -1,0 +1,32 @@
+.search-results {
+  display: flex;
+  height: 800px;
+  max-height: 800px;
+  max-width: 1000px;
+  overflow: auto;
+  }
+
+.search-results-left{
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+  border-right: 1px solid #ccc;
+}
+
+.search-results-right{
+  flex: 2;
+  padding: 20px;
+}
+
+
+.action-buttons button {
+    background-color: #5c2d91; /* Microsoft Purple */
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 15px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
