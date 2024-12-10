@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './LoginLandingPage.css';
-import Navbar from './Navbar';
+import NavbarAuth from './NavbarAuth';
 import TripPlanner from './TripPlanner';
 import ServiceStatus from './ServiceStatus';
 
@@ -16,7 +16,7 @@ function LoginLandingPage() {
 
   return (
     <div className="login-landing-page">
-      <Navbar />
+      <NavbarAuth />
 
       {/* Welcome Section */}
       <div className="welcome-section">

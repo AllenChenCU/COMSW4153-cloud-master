@@ -34,6 +34,15 @@ app.get('/auth/google/callback',
   }
 );
 
+app.get('/logout', (req, res) =>{
+  req.logout((err) => {
+    if(err){
+      return res.status(500).json({error: 'Failed to log out.'});
+    }
+    res.redirect('/');
+  });
+});
+
 app.get('/profile', (req, res) => {
   if (!req.isAuthenticated()) {
     return res.status(401).json({ error: 'Not authenticated' });
