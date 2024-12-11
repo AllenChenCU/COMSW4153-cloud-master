@@ -1,12 +1,29 @@
-// src/components/Navbar.js
+// src/components/NavbarAuth.js
 import React, { useState } from 'react';
-import './Navbar.css';
+import { useNavigate } from 'react-router-dom';
+import './NavbarAuth.css';
+import useStore from '../state/useStore';
 
-function Navbar() {
+function NavbarAuth({ isSearch }) {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
+  const navigate = useNavigate();
+  const clear = useStore((state) => state.clearState);
 
   const toggleSidebar = () => {
     setSidebarOpen(!isSidebarOpen);
+  };
+
+  const handleLogout = async() =>{
+    try{
+      await fetch('/logout', {
+        method: 'GET',
+        credentials: 'same-origin',
+      });
+      clear();
+      navigate('/');
+    } catch(error){
+      console.error('Error logging out: ', error);
+    }
   };
 
   return (
@@ -21,12 +38,14 @@ function Navbar() {
             <span className="logo-text">AccessNYC</span>
           </div>
         </div>
-        {/* <div className="navbar-right">
-          <button className="nav-button">Real-time Updates</button>
+        <div className="navbar-right">
+        <button className='nav-button' onClick={() => {isSearch ? navigate('/login') : navigate('/history')}}> {isSearch ? 'Back' : 'Show History'} </button>
+        <button className="nav-button" onClick={handleLogout}>Logout</button>
+          {/*<button className="nav-button">Real-time Updates</button>
           <button className="nav-button">Accessible Routes</button>
           <button className="nav-button">Route Notifications</button>
-          <button className="nav-button">Real-Time Status</button>
-        </div> */}
+          <button className="nav-button">Real-Time Status</button>*/}
+        </div>
       </nav>
 
       {/* Sidebar Overlay */}
@@ -85,4 +104,4 @@ function Navbar() {
   );
 }
 
-export default Navbar;
+export default NavbarAuth;

@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import './SavedRoutes.css';
+import useStore from '../state/useStore';
 
 
 
@@ -29,6 +30,8 @@ function SavedRoutes() {
     
     const [activeRoute, setActiveRoute] = useState(null);
     const [currentPage, setCurrentPage] = useState(0);
+    const savedRoutes = useStore((state) => state.savedRoutes);
+    const deleteSavedRoute = useStore((state) => state.deleteSavedRoute);
     const [isScrollLocked, setIsScrollLocked] = useState(false);
     const routesPerPage = 5;
 
@@ -58,12 +61,11 @@ function SavedRoutes() {
         return routes.slice(start, end);
       };
 
-      const deleteRoute = (routeId) => {
-        const newRoutes = routes.filter((route) => route.id !== routeId);
-        //setRoutes(newRoutes);
+      const deleteRoute = (route) => {
+        deleteSavedRoute(route)
     
         // If deleting a route causes an index problem for pagination, fix it
-        const totalPages = Math.ceil(newRoutes.length / routesPerPage);
+        const totalPages = Math.ceil(savedRoutes.length / routesPerPage);
         if (currentPage >= totalPages) {
           setCurrentPage(totalPages - 1);
         }

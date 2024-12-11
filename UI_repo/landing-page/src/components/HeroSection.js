@@ -13,7 +13,7 @@ function HeroSection() {
         <button
             className="cta-button"
             onClick={() => {
-              window.location.href = 'https://accessnyc.ngrok-free.app/auth/google';
+              window.location.href = 'https://accessnyc.ngrok-free.app/auth/google' // 'http://localhost:8080/auth/google'
             }}
         >   
           Sign with Google

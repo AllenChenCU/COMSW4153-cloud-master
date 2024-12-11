@@ -4,6 +4,7 @@
   border-radius: 8px;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
   box-sizing: border-box;
+  width: 100%;
 }
 
 .status-title {
@@ -13,7 +14,7 @@
   color: #1A1A1A;
 }
 
-.status-content {
+/* .status-content {
   display: flex;
   flex-direction: column;
   gap: 15px;
@@ -23,7 +24,7 @@
   background-color: #F5F5F5;
   padding: 10px;
   border-radius: 5px;
-}
+} */
 
 .status-item h4 {
   font-size: 16px;
@@ -34,4 +35,49 @@
 .status-item p {
   font-size: 14px;
   color: #666;
+}
+
+
+.status-item {
+  background-color: #f0f0f0; 
+  border: 1px solid #ccc;
+  margin-bottom: 20px;
+  padding: 10px;
+  border-radius: 8px;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.status-header {
+  background-color: #aa76e7; 
+  color: #fff;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.status-content {
+  background-color: #ffffff; 
+  padding: 10px;
+  border: 1px solid #e0e0e0;
+  border-radius: 5px;
+  max-height: 500px;
+  overflow-y: auto;
+}
+
+.equipment-info, .outage-section {
+  background-color: #e6f7ff; 
+  margin-bottom: 40px; 
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.equipment-section {
+  max-height: 300px; 
+  overflow-y: auto;
+
+}
+
+.outage-section {
+  max-height: 200px;
+  overflow-y: auto;
 }

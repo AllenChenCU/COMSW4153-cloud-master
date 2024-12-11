@@ -2,12 +2,17 @@ const passport = require('../Authentication/auth.js');
 const express = require('express');
 const session = require('express-session');
 const axios = require("axios");
+const cors = require('cors');
 
 const app = express();
 const port = 3000;
 
 const COMPOSITE_SERVICE_URL = "https://comsw4153-cloud-composite-service-973496949602.us-central1.run.app";
 app.use(express.json());
+app.use(cors({
+  origin: "*", // CHANFGE TO THE FINAL URL
+  credentials: true
+}));
 
 app.use(session({
   secret: 'secret',
@@ -33,6 +38,7 @@ function isAuthenticated(req, res, next){
 app.get("/query-routes-and-stations", async(req, res) =>{
   try{
     const { source, destination, user_id } = req.query;
+    console.log("Querying routes and stations for source: ", source, " and destination: ", destination);
     const response = await axios.get(`${COMPOSITE_SERVICE_URL}/query-routes-and-stations/`,{
       params: {source, destination, user_id}
     });

@@ -6,6 +6,10 @@
   overflow: auto;
   }
 
+  .route-title {
+   color: #5c2d91;
+  }
+
 .search-results-left{
   flex: 1;
   padding: 20px;
@@ -29,4 +33,5 @@
     cursor: pointer;
     transition: background-color 0.3s;
   }
+  
   

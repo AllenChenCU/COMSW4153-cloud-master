@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './LoginLandingPage.css';
 import '../App.css';
-import Navbar from './Navbar';
+import NavbarAuth from './NavbarAuth';
 import TripPlanner from './TripPlanner';
 import ServiceStatus from './ServiceStatus';
 import SearchResults from './SearchResults';
@@ -10,29 +10,36 @@ import SavedRoutes from './SavedRoutes';
 
 function LoginLandingPage() {
   // set user state jwt token here 
-  const [user, setUser] = useState(null);
-  const { loading, searchRoutes } = useStore
+  const setUserInfo = useStore((state) => state.setUserInfo);
+  const userInfo = useStore((state) => state.userInfo);
+  const searchRoutes = useStore((state) => state.searchRoutes);
+  console.log('searchRoutes:', searchRoutes);
+  const errorMessage = useStore((state) => state.errorMessage);
 
   // TODO update and change 
   useEffect(() => {
-    fetch('/profile')
+    if (!userInfo) {
+      fetch('/profile')
       .then((response) => response.json())
       .then((data) => {
         console.log('Fetched user:', data); 
-        setUser(data);
+        // setUser(data);
+        setUserInfo(data);
       })
       .catch((error) => console.error('Error fetching user:', error));
+    }
+    
   }, []);
 
   return (
     <div className="login-landing-page">
-      <Navbar />
+      <NavbarAuth isSearch={false} />
 
       {/* Welcome Section */}
       <div className="welcome-section">
-        {user ? (
+        {userInfo ? (
           <>
-            <h1>Hi, {user.displayName}!</h1>
+            <h1>Hi, {userInfo.displayName}!</h1>
             <p>Welcome back to AccessNYC!</p>
           </>
         ) : (
@@ -49,26 +56,29 @@ function LoginLandingPage() {
 
       <div className="main-section">
         <TripPlanner />
-        <div className="saved-routes">
-        <h2>Search results:</h2>
-        <div>
-          <ServiceStatus />
-          <div className="map-section">
-            <SearchResults />
-          </div>
-          </div>
-        {/* {searchRoutes ? (
-          <div>
-          <ServiceStatus />
-          <div className="map-section">
-            <SearchResults />
-          </div>
-          </div>
+ 
+        
+       {searchRoutes.length > 0 && !errorMessage ? (
+         <div className="saved-routes">
+          <h2>Search results:</h2>
+            <div>
+            <ServiceStatus />
+            <div className="map-section">
+              <SearchResults />
+            </div>
+            </div>
+            </div>
         ) : (
-           null
-        )} */}
+          null
+        )} 
+
+        {errorMessage && (
+          <div className="error-message">
+            <p>{errorMessage}</p>
+          </div>
+        )}
           
-        </div>
+       
       </div>
 
       {/* Map Section */}

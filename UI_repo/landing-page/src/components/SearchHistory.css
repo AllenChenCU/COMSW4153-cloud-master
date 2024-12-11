@@ -1,0 +1,23 @@
+.search-history-container ul {
+    list-style-type: none; 
+    padding: 0; 
+  }
+  
+  .search-history-container li {
+    display: flex; 
+    align-items: center; 
+    justify-content: center;
+    margin: 10px 0; 
+    padding: 15px 30px; 
+    border: 1px solid #ccc; 
+    border-radius: 50%; 
+    background-color: #f0f0f0;
+    text-align: center;
+  }
+  
+  .search-history-container li h2,
+  .search-history-container li h3 {
+    margin: 0;
+    display: block; 
+  }
+  

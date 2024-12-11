@@ -10,6 +10,7 @@ import Features from './components/Features';
 import Testimonials from './components/Testimonials';
 import Footer from './components/Footer';
 import LoginLandingPage from './components/LoginLandingPage';
+import SearchHistory from './components/SearchHistory';
 import './App.css';
 
 function MainLandingPage() {
@@ -35,6 +36,7 @@ function App() {
       <Routes>
         <Route path="/" element={<MainLandingPage />} />
         <Route path="/login" element={<LoginLandingPage />} />
+        <Route path='/history' element={<SearchHistory />} />
       </Routes>
     </Router>
   );
