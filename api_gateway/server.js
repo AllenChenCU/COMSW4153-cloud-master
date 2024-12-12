@@ -56,7 +56,7 @@ app.get("/query-routes-and-stations", async(req, res) =>{
 app.post("/save-route", async(req, res) => {
   try{
     const response = await axios.post(`${COMPOSITE_SERVICE_URL}/save-route/`, req.body,{
-      headers: {"Content-Type": "application/json"}
+      headers: {"Content-Type": "application/json", "Access-Control-Allow-Origin": "*", "Access-Control-Allow-Headers": "Content-Type"},
     });
     res.status(response.status).json(response.data);
   } catch(error){
@@ -101,14 +101,14 @@ app.get("/get-saved-routes-and-stations", async (req, res) => {
 });
 
 //example:
-//curl "http://localhost:3000/query-all-routes-by-user?user_id=123&limit=10"
+//curl "http://localhost:3000/query-all-routes-by-user?user_id=123&limit=10&page=1"
 //output:
 //{"routes":[{"id":13,"origin":"Columbia University","destination":"John F. Kennedy International Airport"...
 app.get("/query-all-routes-by-user", async (req, res) => {
   try {
-    const {user_id, limit} = req.query;
+    const {user_id, limit, page} = req.query;
     const response = await axios.get(`${COMPOSITE_SERVICE_URL}/query-all-routes-by-user/`,{
-      params: {user_id, limit}
+      params: {user_id, limit, page}
     });
     res.status(response.status).json(response.data);
   } catch(error){
