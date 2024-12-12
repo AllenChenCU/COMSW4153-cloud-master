@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 
-const useStore = create((set) => ({
+const initialState = {
   loading: false, // Tracks loading state
   userInfo: null, // Holds user information
   routes: [], // Holds route data
@@ -12,6 +12,10 @@ const useStore = create((set) => ({
   currentPage: 1,
   from: null,
   to: null,
+  
+}
+const useStore = create((set) => ({
+  ...initialState,
   
   // Actions to update the state
   setLoading: (isLoading) => set({ loading: isLoading }),
@@ -35,7 +39,7 @@ const useStore = create((set) => ({
   setSavedRoutes: (newRoutes) => set({ savedRoutes: newRoutes }),
   setSearchRoutes: (newRoutes) => set({ searchRoutes: newRoutes }),
   setSearchHistory: (newHistory) => set({ searchHistory: newHistory }),
-  clearState: () => set({ loading: false, userInfo: null, routes: [] }) // Resets state
+  clearState: () => set(initialState) // Resets state
 }));
 
 export default useStore;

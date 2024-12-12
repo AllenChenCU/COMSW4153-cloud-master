@@ -89,7 +89,7 @@ app.put('/unsave-route', async(req, res) => {
 //{"routes":[{"bounds":{"northeast":{"lat":40.808134,"lng":-73.7893588},"southwest"...
 app.get("/get-saved-routes-and-stations", async (req, res) => {
   try{
-    const {user_id } = req.query;
+    const { user_id } = req.query;
     const response = await axios.get(`${COMPOSITE_SERVICE_URL}/get-saved-routes-and-stations/`, {
       params: {user_id}
     });

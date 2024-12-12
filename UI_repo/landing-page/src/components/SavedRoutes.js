@@ -25,7 +25,9 @@ function SavedRoutes() {
     const refresh = useCallback(() => {
       setLoading(true);
       setSavedRoutesLoading(true);
-      fetch('http://localhost:3000/get-saved-routes-and-stations?user_id=' + toString(userInfo.user_id), {
+      console.log("Getting saved routes and stations for user: ", userInfo?.id);
+
+      fetch(`http://localhost:3000/get-saved-routes-and-stations?user_id=${userInfo?.id}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -47,13 +49,13 @@ function SavedRoutes() {
         setSavedRoutesLoading(false);   
 
     });
-    } , [setLoading, setSavedRoutes, userInfo.user_id]);
+    } , [setLoading, setSavedRoutes, userInfo?.id]);
 
     useEffect(() => {
-      setLoading(true);
-      setSavedRoutesLoading(true);
-      refresh();
-    }, [refresh, setLoading])
+      if (savedRoutes.length === 0) {
+        refresh();
+      }
+    }, [refresh, savedRoutes.length]);
 
 
 
@@ -73,7 +75,7 @@ function SavedRoutes() {
         return savedRoutes["saved_routes"].slice(start, end);
       };
 
-      const deleteRoute = (route_id) => {
+      const deleteRoute = (route_id, route) => {
         setLoading(true);
         fetch('http://localhost:3000/unsave-route?route_id=' + route_id, {
           method: 'PUT',
@@ -136,7 +138,7 @@ function SavedRoutes() {
                 </button>
                 <button
                   className="btn btn-danger"
-                  onClick={() => deleteRoute(info.route_id)}
+                  onClick={() => deleteRoute(info.route_id, info.route)}
                 >
                   Delete
                 </button>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import './SearchResults.css';
 import useStore from '../state/useStore';
 import uuid from 'react-uuid';
@@ -8,25 +8,24 @@ function SearchResults() {
       const [selectedRoute, setSelectedRoute] = useState(null);
       const [currentRouteIndex, setCurrentRouteIndex] = useState(0);
       const searchRoutes = useStore((state) => state.searchRoutes);
+      const loading = useStore((state) => state.loading);
       const userInfo = useStore((state) => state.userInfo);
-      const savedRoutes = useStore((state) => state.savedRoutes);
-      const setCurrentPage = useStore((state) => state.setCurrentPage);
-      const currentPage = useStore((state) => state.currentPage);
-      const addSavedRoute = useStore((state) => state.addSavedRoute);
       const setLoading = useStore((state) => state.setLoading);
       const setErrorMessage = useStore((state) => state.setError);
       const errorMessage = useStore((state) => state.errorMessage);
       const [message, setMessage] = useState('');
       const from = useStore((state) => state.from);
       const to = useStore((state) => state.to);
+       
   
 
       const addRoute = (from, to ,route) => {
         setLoading(true);
         const query_id = uuid()
+        
         fetch('http://localhost:3000/save-route', {
           method: 'POST',
-          body: JSON.stringify({"source": from, "destination": to, "user_id": toString(userInfo.id), "query_id": query_id, "route": route }),
+          body: JSON.stringify({"source": from, "destination": to, "user_id": `${userInfo.id}`, "query_id": query_id,  "to_email": userInfo.email, "route": route }),
           headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json',
@@ -40,6 +39,9 @@ function SearchResults() {
         }).then(data => {
           console.log('data:', data);
           setMessage(data.message);
+          setTimeout(() => {
+            setMessage('');
+          }, 500);
           setLoading(false);
         }).catch(error => {
           console.error(error);
@@ -48,7 +50,6 @@ function SearchResults() {
   
       });
       };
-
     
       return (
         <div className='search-results'>
@@ -74,9 +75,13 @@ function SearchResults() {
                 <GoogleMap routeData={selectedRoute} />
               
         <div className="action-buttons">
-                    <button onClick={() => addRoute(from, to , selectedRoute)}>Save Route</button>
-                    {message && <p>{message}</p>}
-                    {errorMessage && <p>{errorMessage}</p>}
+                {loading && (
+                  <div class="spinner-border text-primary" role="status" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', zIndex: '3' }}>
+                  {/* <span class="sr-only">Loading...</span> */}
+                </div>)}
+                    <button onClick={() => addRoute(from, to , selectedRoute)} disabled={loading}>Save Route</button>
+                    {message && !errorMessage && <p>{message}</p>}
+                    {errorMessage && !message && <p>{errorMessage}</p>}
           </div>
     
                 {/* Route Info */}

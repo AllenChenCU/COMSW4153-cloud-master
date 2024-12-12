@@ -22,19 +22,19 @@ function LoginLandingPage() {
       fetch('/profile')
       .then((response) => response.json())
       .then((data) => {
+        console.log('data:', data);
         setUserInfo(data);
-        setShowSavedRoutes(true);
       })
       .catch((error) => console.error('Error fetching user:', error));
     }
     
-  }, []);
+  }, [setUserInfo, userInfo]);
 
   useEffect(() => {
-    if(userInfo) {
+    if(userInfo && userInfo?.id){ 
       setShowSavedRoutes(true);
     }
-  }, [userInfo]);
+  }, [userInfo, userInfo?.id]);
 
   return (
     <div className="login-landing-page">

@@ -19,9 +19,11 @@ function TripPlanner() {
   const handleSubmit = (event) => {
     event.preventDefault();
     // Add your trip planning logic here
+    setSearchRoutes([]);
+    setServiceStatuses([]);
     setLoading(true);
     setErrorMessage(null);
-    fetch('http://localhost:3000/query-routes-and-stations?source=' + from + '&destination=' + to + '&user_id=' + userInfo.id, {
+    fetch(`http://localhost:3000/query-routes-and-stations?source=${from}&destination=${to}&user_id=${userInfo.id}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',

@@ -1,8 +1,11 @@
 // src/components/HeroSection.js
 import React from 'react';
 import './HeroSection.css';
+import useStore from '../state/useStore';
 
 function HeroSection() {
+  const clear = useStore((state) => state.clearState);
+
   return (
     <section className="hero-section">
       <div className="hero-content">
@@ -13,6 +16,8 @@ function HeroSection() {
         <button
             className="cta-button"
             onClick={() => {
+              console.log('Sign in with Google');
+              clear();
               window.location.href = 'https://accessnyc.ngrok-free.app/auth/google' // 'http://localhost:8080/auth/google'
             }}
         >   
