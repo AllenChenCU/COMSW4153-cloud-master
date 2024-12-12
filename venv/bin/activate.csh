@@ -9,7 +9,11 @@ alias deactivate 'test $?_OLD_VIRTUAL_PATH != 0 && setenv PATH "$_OLD_VIRTUAL_PA
 # Unset irrelevant variables.
 deactivate nondestructive
 
+<<<<<<< HEAD
 setenv VIRTUAL_ENV "/Users/dede/Desktop/COMSW4153-cloud-master-my-feature-branch/venv"
+=======
+setenv VIRTUAL_ENV "/Users/malinikundamal/Documents/GitHub/W4153/COMSW4153-cloud-master/venv"
+>>>>>>> c00b2b941aa0715403667c5c2ed2c3bf1d15db8c
 
 set _OLD_VIRTUAL_PATH="$PATH"
 setenv PATH "$VIRTUAL_ENV/bin:$PATH"

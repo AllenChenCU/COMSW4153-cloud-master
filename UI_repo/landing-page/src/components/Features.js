@@ -7,7 +7,11 @@ function Features() {
             <p>Discover seamless, accessible commuting in NYC</p>
             <div className="features-container">
                 <div className="feature-box">
+<<<<<<< HEAD
                     <img src="static/Accesibility.webp" alt="Accessible Routing" />
+=======
+                    <img src="/Accesibility.webp" alt="Accessible Routing" />
+>>>>>>> c00b2b941aa0715403667c5c2ed2c3bf1d15db8c
                     <h3>Accessible Routing</h3>
                     <p>Navigate NYC’s Metro with confidence using routes optimized for accessibility</p>
                     <button>Learn More</button>
