@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import './LoginLandingPage.css';
 import './SearchHistory.css';
 import '../App.css';
@@ -13,12 +13,38 @@ function SearchHistory() {
  const loading = useStore((state) => state.loading);
  const setLoading = useStore((state) => state.setLoading);
  const [error , setError] = useState(null);
- const [currentPage, setCurrentPage] = useState(0);
+ const [currentPage, setCurrentPage] = useState(1);
  const [itemsPerPage, setItemsPerPage] = useState(10);
  const [totalPages, setTotalPages] = useState(0);
  const navigate = useNavigate();
  const clear = useStore((state) => state.clearState);
+ const limit = 6;
 
+ const search = useCallback(() => {
+  setLoading(true);
+  fetch(`http://localhost:3000/query-all-routes-by-user?user_id=${userInfo?.id}&limit=${limit}&page=${currentPage}`, 
+  { method: 'GET' ,
+  headers: {
+    'Content-Type': 'application/json',
+    'Accept': 'application/json',
+    'Access-Control-Allow-Origin': '*'
+  }})
+    .then(response => response.json())
+    .then(data => {
+          setSearchHistory(data.routes)
+          setCurrentPage(data.pagination.currentPage)
+          setItemsPerPage(data.pagination.totalItems)
+          setTotalPages(data.pagination.totalPages)
+          setLoading(false);
+    }
+  
+  )
+    .catch(error => {
+      console.error('Error fetching search history:', error)
+       setError(error)
+       setLoading(false);
+      });
+}, [userInfo, currentPage, setLoading, setSearchHistory, setCurrentPage, setItemsPerPage, setTotalPages]);
 
 
   useEffect(() => {
@@ -30,46 +56,18 @@ function SearchHistory() {
           clear();
           navigate('/');
     }
-    setLoading(true);
-    fetch('http://localhost:3000/query-all-routes-by-user?user_id=' + userInfo.id + '&limit=10', 
-    { method: 'GET' ,
-    headers: {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
-      'Access-Control-Allow-Origin': '*'
-    }})
-      .then(response => response.json())
-      .then(data => {
-            setSearchHistory(data.routes)
-            setCurrentPage(data.pagination.currentPage)
-            setItemsPerPage(data.pagination.totalItems)
-            setTotalPages(data.pagination.totalPages)
-            setLoading(false);
-      }
-    
-    )
-      .catch(error => {
-        console.error('Error fetching search history:', error)
-         setError(error)
-         setLoading(false);
-        });
-    
-  }, [clear, navigate, setLoading, userInfo, userInfo.id])
 
-  const paginateRoutes = () => {
-    const start = currentPage * itemsPerPage;
-    const end = start + itemsPerPage;
-    console.log('start:', start);
-    console.log('end:', end);
-    console.log('searchHistory:', searchHistory.slice(start, end));
-    return searchHistory.slice(start, end);
-  };
+  }, [userInfo, navigate, clear]);
+
+  useEffect(() => {
+    search()
+  }, [search, currentPage]);
+    
 
   const handlePageChange = (pageIndex) => {
     setCurrentPage(pageIndex);
   };
 
-  console.log('searchHistory:', searchHistory);
 
   return (
     <div className="login-landing-page">
@@ -84,30 +82,30 @@ function SearchHistory() {
    {!loading && (
     <>
     {error && <p>{error}</p>}
-    {searchHistory.length === 0 && !error && <p>No search history found.</p>}
+    {searchHistory?.length === 0 && !error && <p>No search history found.</p>}
 
     
       <div classname="search-history-container">
        
-      {searchHistory.length > 0 && !error && (
+      {searchHistory?.length > 0 && !error && (
         <>
         <ul>
-          {searchHistory.map((route,index) => (
+          {searchHistory?.map((route,index) => (
             <li key={route.id}>
-                <h2>Search # {index + 1}: </h2>
+                <h2>Search # {currentPage * limit - limit + index + 1}: </h2>
               <h3>{route.origin} to {route.destination}</h3>
             </li>
           ))}
         </ul>
 
-        <div className="pagination-container mt-3">
+        <div className="pagination-container mt-3" style={{ display: 'flex', justifyContent: 'center' }}>
             {Array.from({ length: totalPages }).map((_, index) => (
               <button
                 className={`btn btn-secondary me-2 ${
                   currentPage === index + 1 ? "active" : ""
                 }`}
                 key={index}
-                onClick={() => handlePageChange(index)}
+                onClick={() => handlePageChange(index + 1)}
               >
                 {index + 1}
               </button>

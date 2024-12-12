@@ -1,122 +1,177 @@
-import React, { useState } from 'react'
+import React, { useCallback, useState, useEffect } from 'react'
 import './SavedRoutes.css';
 import useStore from '../state/useStore';
+import SavedServices from './SavedServices';
+import GoogleMap from './GoogleMap';
 
 
 
 function SavedRoutes() {
-    const routes = [
-        { id: 1, name: "Route A", info: "Details of Route A", location: { lat: 51.054342, lng: 3.717424 } },
-        { id: 2, name: "Route B", info: "Details of Route B", location: { lat: 51.050622, lng: 3.730327 } },
-        { id: 3, name: "Route C", info: "Details of Route C", location: { lat: 51.056534, lng: 3.708751 } },
-        { id: 4, name: "Route D", info: "Details of Route D", location: { lat: 51.056534, lng: 3.708751 } },
-        { id: 5, name: "Route E", info: "Details of Route E", location: { lat: 51.056534, lng: 3.708751 } },
-        { id: 6, name: "Route F", info: "Details of Route F", location: { lat: 51.056534, lng: 3.708751 } },
-        { id: 7, name: "Route G", info: "Details of Route G", location: { lat: 51.056534, lng: 3.708751 } },
-        { id: 8, name: "Route H", info: "Details of Route H", location: { lat: 51.056534, lng: 3.708751 } },
-        { id: 9, name: "Route I", info: "Details of Route I", location: { lat: 51.056534, lng: 3.708751 } },
-        { id: 10, name: "Route J", info: "Details of Route J", location: { lat: 51.056534, lng: 3.708751 } },
-        { id: 11, name: "Route K", info: "Details of Route K", location: { lat: 51.056534, lng: 3.708751 } },
-        { id: 12, name: "Route L", info: "Details of Route L", location: { lat: 51.056534, lng: 3.708751 } },
-        { id: 13, name: "Route M", info: "Details of Route M", location: { lat: 51.056534, lng: 3.708751 } },
-        { id: 14, name: "Route N", info: "Details of Route N", location: { lat: 51.056534, lng: 3.708751 } },
-        { id: 15, name: "Route O", info: "Details of Route O", location: { lat: 51.056534, lng: 3.708751 } },
-        { id: 16, name: "Route P", info: "Details of Route P", location: { lat: 51.056534, lng: 3.708751 } },
-        { id: 17, name: "Route Q", info: "Details of Route Q", location: { lat: 51.056534, lng: 3.708751 } },
-        { id: 18, name: "Route R", info: "Details of Route R", location: { lat: 51.056534, lng: 3.708751 } },
-        { id: 19, name: "Route S", info: "Details of Route S", location: { lat: 51.056534, lng: 3.708751 } },
-        { id: 20, name: "Route T", info: "Details of Route T", location: { lat: 51.056534, lng: 3.708751 } },
-      ];
-    
+  
     const [activeRoute, setActiveRoute] = useState(null);
     const [currentPage, setCurrentPage] = useState(0);
+    const userInfo = useStore((state) => state.userInfo);
+    const setLoading = useStore((state) => state.setLoading);
+    const loading = useStore((state) => state.loading);
     const savedRoutes = useStore((state) => state.savedRoutes);
+    const setSavedRoutes = useStore((state) => state.setSavedRoutes);
+    const [errorMessage, setErrorMessage] = useState('');
+    const [selectedRoute, setSelectedRoute] = useState(null);
+    const [savedRoutesLoading, setSavedRoutesLoading] = useState(false);
     const deleteSavedRoute = useStore((state) => state.deleteSavedRoute);
-    const [isScrollLocked, setIsScrollLocked] = useState(false);
     const routesPerPage = 5;
 
-    const handleDropdownToggle = (routeIndex) => {
+
+    const refresh = useCallback(() => {
+      setLoading(true);
+      setSavedRoutesLoading(true);
+      fetch('http://localhost:3000/get-saved-routes-and-stations?user_id=' + toString(userInfo.user_id), {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'Access-Control-Allow-Origin': '*'
+        },
+      }).then(response => {
+        if (!response.ok) {
+         setErrorMessage('Failed to fetch saved route', response.status);
+        }
+        return response.json();
+      }).then(data => {
+        setSavedRoutes(data);
+        setLoading(false);
+        setSavedRoutesLoading(false);
+      }).catch(error => {
+        setErrorMessage(error.message);
+        setLoading(false);
+        setSavedRoutesLoading(false);   
+
+    });
+    } , [setLoading, setSavedRoutes, userInfo.user_id]);
+
+    useEffect(() => {
+      setLoading(true);
+      setSavedRoutesLoading(true);
+      refresh();
+    }, [refresh, setLoading])
+
+
+
+    const handleDropdownToggle = (routeIndex,route) => {
         if (activeRoute === routeIndex) {
           setActiveRoute(null);
-          unlockScrolling();
+          setSelectedRoute(null);
         } else {
           setActiveRoute(routeIndex);
-          lockScrolling();
+          setSelectedRoute(route);
         }
       };
-    
-      const lockScrolling = () => {
-        document.body.style.overflow = "hidden";
-        setIsScrollLocked(true);
-      };
-    
-      const unlockScrolling = () => {
-        document.body.style.overflow = "auto";
-        setIsScrollLocked(false);
-      };
-    
+
       const paginateRoutes = () => {
         const start = currentPage * routesPerPage;
         const end = start + routesPerPage;
-        return routes.slice(start, end);
+        return savedRoutes["saved_routes"].slice(start, end);
       };
 
-      const deleteRoute = (route) => {
-        deleteSavedRoute(route)
+      const deleteRoute = (route_id) => {
+        setLoading(true);
+        fetch('http://localhost:3000/unsave-route?route_id=' + route_id, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'Access-Control-Allow-Origin': '*'
+          },
+        }).then(response => {
+          if (!response.ok) {
+           setErrorMessage('Failed to save route', response.status);
+          }
+          return response.json();
+        }).then(data => {
+          deleteSavedRoute(route_id)
+          const totalPages = Math.ceil(savedRoutes["saved_routes"]?.length / routesPerPage);
+          if (currentPage >= totalPages) {
+            setCurrentPage(totalPages - 1);
+          }
     
-        // If deleting a route causes an index problem for pagination, fix it
-        const totalPages = Math.ceil(savedRoutes.length / routesPerPage);
-        if (currentPage >= totalPages) {
-          setCurrentPage(totalPages - 1);
-        }
+          setLoading(false);
+        }).catch(error => {
+          setLoading(false);
+          setErrorMessage(error.message);     
+  
+      });
+    
       };
     
-      const totalPages = Math.ceil(routes.length / routesPerPage);
+      const totalPages = Math.ceil(savedRoutes["saved_routes"]?.length / routesPerPage);
     
       const handlePageChange = (pageIndex) => {
         setCurrentPage(pageIndex);
-        unlockScrolling(); // Ensure unlock scrolling when navigating pages
         setActiveRoute(null);
       };
-  
+
+      if (savedRoutesLoading) {
+        return     <div class="spinner-border text-primary" role="status" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', zIndex: '3' }}>
+        {/* <span class="sr-only">Loading...</span> */}
+      </div> 
+      }
+      
+      if (errorMessage) {
+        return <div className="error-message">{errorMessage}</div>;
+      }
+
       return (
+        <>
         <div className="route-container">
         <div className="route-list-container">
-          {paginateRoutes().map((route, index) => (
-            <div key={route.id} className="route-item">
+          <button className="btn btn-primary" style={{marginBottom: '10px'}} onClick={() => refresh()} disabled={savedRoutesLoading}>Refresh</button>
+          {savedRoutes["saved_routes"] && paginateRoutes().map((info, index) => (
+            <div key={info.user_id} className="route-item">
               <div className="d-flex justify-content-between align-items-center mb-2">
                 <button
                   className="btn btn-purple flex-grow-1 me-2"
-                  onClick={() => handleDropdownToggle(index)}
+                  onClick={() => handleDropdownToggle(index, info.route)}
                 >
-                  {route.name}
+                   {info['route'].legs[0].start_address} to {info['route'].legs[0].end_address}
                 </button>
                 <button
                   className="btn btn-danger"
-                  onClick={() => deleteRoute(route.id)}
+                  onClick={() => deleteRoute(info.route_id)}
                 >
                   Delete
                 </button>
               </div>
               {activeRoute === index && (
   <div className="dropdown-content p-3 border custom-dropdown">
-    <div
-      id={`map-${index}`}
-      className="map-container"
-    >
-      <img
-        src="https://via.placeholder.com/600x400" // Replace with your actual map/image
-        alt="Map"
-        className="map-placeholder"
-      />
-    </div>
-    <h5 className="mt-3 step-title">Step Directions</h5>
-    {/* <ul className="step-list">
-      {route.steps.map((step, stepIndex) => (
-        <li key={stepIndex}>{step}</li>
-      ))}
-    </ul> */}
+   <>
+                <GoogleMap routeData={selectedRoute} />
+    
+                {/* Route Info */}
+
+                {selectedRoute.legs.map((leg, legIndex) => (
+                  <div  key={legIndex}>
+                    <h4><b>Start:</b> {leg.start_address}</h4>
+                    <h4><b>End:</b> {leg.end_address}</h4>
+                    <p>distance: {leg.distance.text}</p>
+                    <p>Duration: {leg.duration.text}</p>
+                    <h5>Steps:</h5>
+                    {leg.steps.map((step, stepIndex) => (<>
+                      <p><b><u>step # {stepIndex + 1}</u></b></p>
+                      <div key={stepIndex}>
+                        <p>instructions: {step.html_instructions}</p>
+                        <p>distance: {step.distance.text}</p>
+                        <p>duration: {step.duration.text}</p>
+                      </div>
+                      </>
+                    ))}
+                  </div>
+                ))}
+              </>
   </div>
+)}
+
+{savedRoutes["saved_routes"].length === 0 && (
+  <p className="no-data-message">No Saved Routes</p>
 )}
 
             </div>
@@ -137,7 +192,15 @@ function SavedRoutes() {
             ))}
           </div>
         </div>
+
+        
       </div>
+
+      <h2>Saved Stations</h2>
+      <div className="saved-stations-container">
+        {savedRoutes["stations_from_saved_routes"] && <SavedServices savedRoutes={savedRoutes} />}
+      </div>
+</>
     );
   };
 

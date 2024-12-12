@@ -20,7 +20,7 @@ function TripPlanner() {
     event.preventDefault();
     // Add your trip planning logic here
     setLoading(true);
-
+    setErrorMessage(null);
     fetch('http://localhost:3000/query-routes-and-stations?source=' + from + '&destination=' + to + '&user_id=' + userInfo.id, {
       method: 'GET',
       headers: {

@@ -4,14 +4,7 @@ import useStore from '../state/useStore';
 import uuid from 'react-uuid';
 import GoogleMap from './GoogleMap';
 
-
 function SearchResults() {
-    const routes = [
-        { id: 1, name: "Route A", info: "Details of Route A", location: { lat: 51.054342, lng: 3.717424 } },
-        { id: 2, name: "Route B", info: "Details of Route B", location: { lat: 51.050622, lng: 3.730327 } },
-        { id: 3, name: "Route C", info: "Details of Route C", location: { lat: 51.056534, lng: 3.708751 } },
-      ];
-    
       const [selectedRoute, setSelectedRoute] = useState(null);
       const [currentRouteIndex, setCurrentRouteIndex] = useState(0);
       const searchRoutes = useStore((state) => state.searchRoutes);
@@ -29,11 +22,11 @@ function SearchResults() {
   
 
       const addRoute = (from, to ,route) => {
-        console.log('Adding route:', route);
+        setLoading(true);
         const query_id = uuid()
-        fetch('http://localhost:3000/save-route/', {
+        fetch('http://localhost:3000/save-route', {
           method: 'POST',
-          body: { 'source': from, 'destination': to, 'user_id': userInfo.id, 'query_id': query_id, 'route': route },
+          body: JSON.stringify({"source": from, "destination": to, "user_id": toString(userInfo.id), "query_id": query_id, "route": route }),
           headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json',
@@ -47,12 +40,6 @@ function SearchResults() {
         }).then(data => {
           console.log('data:', data);
           setMessage(data.message);
-          addSavedRoute({ source: from, destination: to, user_id: userInfo.id, query_id: query_id, route: route })
-          const totalPages = Math.ceil(savedRoutes.length / 5);
-          if (currentPage >= totalPages) {
-            setCurrentPage(totalPages - 1);
-          }
-    
           setLoading(false);
         }).catch(error => {
           console.error(error);
@@ -72,7 +59,7 @@ function SearchResults() {
               <div
                 key={index}
                 style={{ padding: '10px', cursor: 'pointer', borderBottom: '1px solid #eee' }}
-                onClick={() => {setSelectedRoute(route); setCurrentRouteIndex(index + 1);}}
+                onClick={() => {setMessage(''); setSelectedRoute(route); setCurrentRouteIndex(index + 1);}}
               >
                 <h3>Route {index + 1}</h3>
                 {route.legs[0].start_address + " to " + route.legs[0].end_address}

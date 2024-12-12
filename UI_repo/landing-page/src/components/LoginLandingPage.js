@@ -13,7 +13,7 @@ function LoginLandingPage() {
   const setUserInfo = useStore((state) => state.setUserInfo);
   const userInfo = useStore((state) => state.userInfo);
   const searchRoutes = useStore((state) => state.searchRoutes);
-  console.log('searchRoutes:', searchRoutes);
+  const [showSavedRoutes, setShowSavedRoutes] = useState(false);
   const errorMessage = useStore((state) => state.errorMessage);
 
   // TODO update and change 
@@ -22,14 +22,19 @@ function LoginLandingPage() {
       fetch('/profile')
       .then((response) => response.json())
       .then((data) => {
-        console.log('Fetched user:', data); 
-        // setUser(data);
         setUserInfo(data);
+        setShowSavedRoutes(true);
       })
       .catch((error) => console.error('Error fetching user:', error));
     }
     
   }, []);
+
+  useEffect(() => {
+    if(userInfo) {
+      setShowSavedRoutes(true);
+    }
+  }, [userInfo]);
 
   return (
     <div className="login-landing-page">
@@ -48,9 +53,9 @@ function LoginLandingPage() {
       </div>
 
       <div className="saved-routes">
-        <h2>View Saved Routes</h2>
+        <h2>View Saved Routes and Stations</h2>
         <div className="routes-container">
-          <SavedRoutes />
+          {showSavedRoutes && <SavedRoutes />}
         </div>
       </div>
 

@@ -22,8 +22,16 @@ const useStore = create((set) => ({
   setFrom: (from) => set({ from: from }),
   setTo: (to) => set({ to: to }),
   setServiceStatuses: (newStatuses) => set({ serviceStatuses: newStatuses }),
-  deleteSavedRoute: (routeId) => set((state) => ({ savedRoutes: state.savedRoutes.filter((route) => route.id !== routeId) })),
-  addSavedRoute: (route) => set((state) => ({ savedRoutes: [...state.savedRoutes, route] })),
+  deleteSavedRoute: (route_id) => set((state) => ({
+    savedRoutes: {
+      ...state.savedRoutes, // Keep other parts of savedRoutes intact
+      saved_routes: state.savedRoutes.saved_routes.filter(route => route.route_id !== route_id) // Remove the route with matching route_id
+    }
+  })),
+  
+  addSavedRoute: (route) => set((state) => ({
+    savedRoutes: [...state.savedRoutes, route]
+  })),  
   setSavedRoutes: (newRoutes) => set({ savedRoutes: newRoutes }),
   setSearchRoutes: (newRoutes) => set({ searchRoutes: newRoutes }),
   setSearchHistory: (newHistory) => set({ searchHistory: newHistory }),
