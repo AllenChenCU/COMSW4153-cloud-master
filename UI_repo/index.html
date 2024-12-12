@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link href="styles.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <title>Accessible Routes App</title>
+</head>
+<body>
+<div class = "container">
+    <div class = "row">
+        <h1>Where do you want to go?</h1>
+        <h1></h1>
+        <br>
+
+        <div class = "col-md-8">
+            <form id = "login">
+            </form>
+
+            <form id = "find_a_path">
+                <label for = "Origin"> Origin </label>
+                <input type = "text" id = "Origin" name = "Origin" required>
+                <br>
+                <label for = "Destination"> Destination</label>
+                <input type = "text" id = "Destination" name = "Destination" required>
+                <br>
+                <br>
+                <select id="mode">
+                    <option value="transit">transit</option>
+                    <option value="walking">walking</option>
+                    <option value="driving">driving</option>
+                  </select>
+                <br>
+                <br>
+                <button type = "submit" id = "submit_path"> Find an accessible route </button>
+                <br>
+                <br>
+
+            </form>
+            <h3>---------------------------------</h3>
+            <button type = "submit" id = "show_all"> show viewed routes</button>
+        </div>
+
+
+<div id="path-accessible-content" style="display: none;">
+
+    <div class = "col-md-12">
+        <br>
+          <h1 id="path-title">Accessible Paths</h1>
+          
+          <div class = "row">
+          <div id = "path_container" class="col-md-6">
+            </div>
+            
+            <div id="path-details-container" class="col-md-6">
+                <div id="path-details">
+                </div>
+
+            </div>
+          </div>
+
+          <div id = "pagination_container" class = "col-md-12 text-center"></div>
+      </div>
+</div>
+<h3>---------------------------------</h3>
+<div id = "error-message" style = "color: red; display: none;"> Error: Could not find an accessible route.</div>
+        <div class = "col-md-8">
+          <br>
+            <h1> MTA Alerts</h1>
+            <div id = "alerts_container"></div>
+        </div>
+
+    </div>
+</div>
+
+<script src = "script.js" ></script>
+
+
+</body>
+</html>

@@ -1,0 +1,85 @@
+.route-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+
+  /* General dropdown styles */
+.custom-dropdown {
+    width: 400px; /* Adjust width for better fit */
+    max-height: 500px; 
+    background-color: #f9f9f9;
+    overflow-y: auto;
+    border-radius: 10px;
+  }
+  
+  /* Map container style */
+  .map-container {
+    height: 100%;
+    width: 100%;
+    background-color: #e6e6fa;
+    /* border: 1px solid #6f42c1; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 15px; /* Space below map */
+  }
+  
+  .map-placeholder {
+    /* max-width: 90%;
+    max-height: 90%; */
+    object-fit: contain;
+  }
+  
+  /* Step List styles */
+  .step-title {
+    font-size: 1.1rem;
+    font-weight: bold;
+  }
+  
+  .step-list {
+    padding: 0;
+    list-style-type: disc;
+    margin-left: 20px;
+    line-height: 1.6;
+  }
+  
+  .step-list li {
+    margin-bottom: 10px; /* Increase space between steps */
+  }
+  
+  
+  .route-list-container {
+    overflow-y: auto;
+    max-height: 3000px; /* Adjust the scrollable area */
+    padding: 10px;
+  }
+  
+  .btn-purple {
+    background-color: #6f42c1;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .btn-purple:hover {
+    color: white;
+    background-color: #915ae8;
+  }
+  
+  .dropdown-content {
+    background: #f3e6fa;
+    border: 2px solid #4B2E83;
+    border-radius: 8px;
+    padding: 10px;
+    max-height: 650px;
+    overflow-y: auto;
+  }
+  
+  .pagination-container button.active {
+    background-color: #6f42c1;
+    color: white;
+  }
+
+  
+  

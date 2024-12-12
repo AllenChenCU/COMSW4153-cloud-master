@@ -1,0 +1,15 @@
+runtime: python311
+env: standard
+
+handlers:
+# Serve the static files (Landing Page)
+- url: /static
+  static_dir: UI_repo/landing-page/build/static
+
+- url: /
+  static_files: UI_repo/landing-page/build/index.html
+  upload: UI_repo/landing-page/build/index.html
+
+# Route all requests for Authentication logic
+- url: /auth/.*
+  script: Authentication.server.app
