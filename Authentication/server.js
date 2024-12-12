@@ -22,11 +22,19 @@ app.get('/auth/google', (req, res, next) => {
   passport.authenticate('google', { scope: ['profile', 'email'] })(req, res, next);
 });
 
+
 app.get('/auth/google/callback',
   passport.authenticate('google', { failureRedirect: '/' }),
   (req, res) => {
     console.log('Authenticated user:', req.user);
-    res.redirect('/login'); 
+    res.redirect('/login');
+  },
+  (err, req, res, next) => {
+    if (err) {
+      console.error('Error during authentication:', err);
+      return res.redirect('/'); 
+    }
+    next();
   }
 );
 

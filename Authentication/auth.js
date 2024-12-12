@@ -7,7 +7,7 @@ passport.use(
     {
       clientID: '1009253074391-v1vikqme5euagepgddnasta6mgtf3btv.apps.googleusercontent.com',
       clientSecret: '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',
-      callbackURL:  'https://accessnyc.ngrok-free.app/auth/google/callback', // 'http://localhost:8080/auth/google/callback'
+      callbackURL: 'https://accessnyc.ngrok-free.app/auth/google/callback', // 'http://localhost:8080/auth/google/callback'
     },
     async (accessToken, refreshToken, profile, done) => {
       console.log('Google profile:', profile);
