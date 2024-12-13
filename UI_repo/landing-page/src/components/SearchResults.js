@@ -38,7 +38,7 @@ function SearchResults() {
           return response.json();
         }).then(data => {
           console.log('data:', data);
-          setMessage(data.message);
+          setMessage(data.message + " Check your email for confirmation!");
           setTimeout(() => {
             setMessage('');
           }, 500);
