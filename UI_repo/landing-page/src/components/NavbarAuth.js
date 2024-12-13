@@ -8,6 +8,7 @@ function NavbarAuth({ isSearch }) {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
   const navigate = useNavigate();
   const clear = useStore((state) => state.clearState);
+  const setErrorMessage = useStore((state) => state.setError);
 
   const toggleSidebar = () => {
     setSidebarOpen(!isSidebarOpen);
@@ -39,7 +40,7 @@ function NavbarAuth({ isSearch }) {
           </div>
         </div>
         <div className="navbar-right">
-        <button className='nav-button' onClick={() => {isSearch ? navigate('/login') : navigate('/history')}}> {isSearch ? 'Back' : 'Show History'} </button>
+        <button className='nav-button' onClick={() => {(isSearch ? navigate('/login') : navigate('/history')); setErrorMessage('');}}> {isSearch ? 'Back' : 'Show History'} </button>
         <button className="nav-button" onClick={handleLogout}>Logout</button>
           {/*<button className="nav-button">Real-time Updates</button>
           <button className="nav-button">Accessible Routes</button>

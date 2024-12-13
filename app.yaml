@@ -1,5 +1,6 @@
-runtime: python311
+runtime: nodejs20
 env: standard
+entrypoint: node Authentication/server.js
 
 handlers:
 # Serve the static files (Landing Page)
@@ -12,4 +13,4 @@ handlers:
 
 # Route all requests for Authentication logic
 - url: /auth/.*
-  script: Authentication.server.app
+  script: ./Authentication/server.js

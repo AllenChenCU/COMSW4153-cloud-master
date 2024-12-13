@@ -41,7 +41,7 @@ function SearchResults() {
           setMessage(data.message + " Check your email for confirmation!");
           setTimeout(() => {
             setMessage('');
-          }, 500);
+          }, 1500);
           setLoading(false);
         }).catch(error => {
           console.error(error);
