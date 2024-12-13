@@ -91,3 +91,8 @@ exec('cd ../UI_repo/landing-page && npm run build', (err, stdout, stderr) => {
 app.listen(8080, () => {
   console.log('Server is running on http://localhost:8080');
 });
+<<<<<<< HEAD
+
+module.exports = app;
+=======
+>>>>>>> c00b2b941aa0715403667c5c2ed2c3bf1d15db8c

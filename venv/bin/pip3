@@ -1,4 +1,8 @@
+<<<<<<< HEAD
+#!/Users/dede/Desktop/COMSW4153-cloud-master-my-feature-branch/venv/bin/python3
+=======
 #!/Users/malinikundamal/Documents/GitHub/W4153/COMSW4153-cloud-master/venv/bin/python3.12
+>>>>>>> c00b2b941aa0715403667c5c2ed2c3bf1d15db8c
 # -*- coding: utf-8 -*-
 import re
 import sys

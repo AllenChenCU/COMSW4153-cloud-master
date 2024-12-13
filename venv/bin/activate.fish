@@ -33,7 +33,11 @@ end
 # Unset irrelevant variables.
 deactivate nondestructive
 
+<<<<<<< HEAD
+set -gx VIRTUAL_ENV "/Users/dede/Desktop/COMSW4153-cloud-master-my-feature-branch/venv"
+=======
 set -gx VIRTUAL_ENV "/Users/malinikundamal/Documents/GitHub/W4153/COMSW4153-cloud-master/venv"
+>>>>>>> c00b2b941aa0715403667c5c2ed2c3bf1d15db8c
 
 set -gx _OLD_VIRTUAL_PATH $PATH
 set -gx PATH "$VIRTUAL_ENV/bin" $PATH

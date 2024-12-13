@@ -18,14 +18,22 @@ function HeroSection() {
             onClick={() => {
               console.log('Sign in with Google');
               clear();
+<<<<<<< HEAD
+              window.location.href = 'https://access-nyc-437301-k9.ue.r.appspot.com' // 'http://localhost:8080/auth/google'
+=======
               window.location.href = 'https://accessnyc.ngrok-free.app/auth/google' // 'http://localhost:8080/auth/google'
+>>>>>>> c00b2b941aa0715403667c5c2ed2c3bf1d15db8c
             }}
         >   
           Sign with Google
         </button>
       </div>
       <div className="hero-image">
+<<<<<<< HEAD
+        <img src="static/mta.jpg" alt="MTA Subway" />
+=======
         <img src="/mta.jpg" alt="MTA Subway" />
+>>>>>>> c00b2b941aa0715403667c5c2ed2c3bf1d15db8c
       </div>
     </section>
   );
