@@ -107,7 +107,7 @@ app.put('/unsave-route', validateAuthHeader, async(req, res) => {
 //curl "http://localhost:3000/get-saved-routes-and-stations?user_id=123"
 //output:
 //{"routes":[{"bounds":{"northeast":{"lat":40.808134,"lng":-73.7893588},"southwest"...
-app.get("/get-saved-routes-and-stations", async (req, res) => {
+app.get("/get-saved-routes-and-stations", validateAuthHeader, async (req, res) => {
   try{
     const { user_id } = req.query;
     const response = await axios.get(`${COMPOSITE_SERVICE_URL}/get-saved-routes-and-stations/`, {

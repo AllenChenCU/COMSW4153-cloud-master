@@ -22,27 +22,29 @@ function SearchHistory() {
  const search = useCallback(() => {
   const token = localStorage.getItem('jwtToken');
   setLoading(true);
-  fetch(`http://localhost:3000/query-all-routes-by-user?user_id=${userInfo?.id}&limit=${limit}&page=${currentPage}`, 
-  { method: 'GET' ,
-  headers: {
-    'Content-Type': 'application/json',
-    'Authorization': `Bearer ${token}`
-  }})
-    .then(response => response.json())
-    .then(data => {
-          setSearchHistory(data.routes)
-          setCurrentPage(data.pagination.currentPage)
-          setItemsPerPage(data.pagination.totalItems)
-          setTotalPages(data.pagination.totalPages)
-          setLoading(false);
-    }
-  
-  )
-    .catch(error => {
-      console.error('Error fetching search history:', error)
-       setError(error)
-       setLoading(false);
-      });
+  if(userInfo?.id){
+    fetch(`http://localhost:3000/query-all-routes-by-user?user_id=${userInfo?.id}&limit=${limit}&page=${currentPage}`, 
+    { method: 'GET' ,
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    }})
+      .then(response => response.json())
+      .then(data => {
+            setSearchHistory(data.routes)
+            setCurrentPage(data.pagination.currentPage)
+            setItemsPerPage(data.pagination.totalItems)
+            setTotalPages(data.pagination.totalPages)
+            setLoading(false);
+      }
+    
+    )
+      .catch(error => {
+        console.error('Error fetching search history:', error)
+        setError(error)
+        setLoading(false);
+        });
+  }
 }, [userInfo, currentPage, setLoading, setSearchHistory, setCurrentPage, setItemsPerPage, setTotalPages]);
 
 

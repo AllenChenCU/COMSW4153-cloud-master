@@ -77,16 +77,16 @@ function SavedRoutes() {
 
       const deleteRoute = (route_id, route) => {
         setLoading(true);
-        fetch('http://localhost:3000/unsave-route?route_id=' + route_id, {
+        const token = localStorage.getItem('jwtToken');
+        fetch(`http://localhost:3000/unsave-route?route_id=${route_id}`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
-            'Accept': 'application/json',
-            'Access-Control-Allow-Origin': '*'
+            'Authorization': `Bearer ${token}`,
           },
         }).then(response => {
           if (!response.ok) {
-           setErrorMessage('Failed to save route', response.status);
+           setErrorMessage('Failed to delete route', response.status);
           }
           return response.json();
         }).then(data => {

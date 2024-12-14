@@ -12,6 +12,7 @@ function ServiceStatus() {
    const [servicesKey, setServicesKey] = useState([]);
    const [outagesData, setOutagesData] = useState([]);
    const [error, setError] = useState(null);
+   let currentErrors = [];
 
 
    useEffect(() => {
@@ -39,7 +40,7 @@ function ServiceStatus() {
       const token = localStorage.getItem('jwtToken');
        
       Promise.all(stations.map(route => 
-        fetch(`http://3.84.62.68:5001/outages/${route}`, {
+        fetch(`https://comsw4153-mta-service-973496949602.us-central1.run.app/outages/${route}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -55,7 +56,9 @@ function ServiceStatus() {
         })
         .catch(error => {
           console.error(`Error fetching route ${route}:`, error);
-          setError(error.message);
+          currentErrors[route] = { outages: 'No outages' };
+
+          return { outages: 'No outages' };
         })
       ))
       .then(results => {
@@ -63,11 +66,21 @@ function ServiceStatus() {
         const outagesDataMap = stations.reduce((acc, route, index) => {
           if (results[index] !== null) {
             acc[route] = results[index];
+          } else {
+            acc[route] = [{ outages: 'No outages' }];
           }
           return acc;
         }, {});
       
-        setOutagesData(outagesDataMap);
+        
+        const noOutages = Object.values(outagesDataMap).every(route => route.outages === 'No outages');
+        
+        if (noOutages) {
+          setError('There are no outages.');
+        } else {
+          setOutagesData(outagesDataMap);
+        }
+
         setLoading(false);
       })
       .catch(error => {
@@ -80,7 +93,7 @@ function ServiceStatus() {
     }
 
 
-  }, [searchRoutes, setLoading]);
+  }, [currentErrors, searchRoutes, setLoading]);
   
   return (
     <section className="service-status">
@@ -88,7 +101,7 @@ function ServiceStatus() {
     <div className="status-content">
     {servicesKey.map((serviceKey, index) => {
   const status = serviceStatuses[0][serviceKey];
-  const outages = outagesData[serviceKey];
+  const outages = currentErrors[serviceKey] ? [] : outagesData[serviceKey]
 
   if (error) {
     return (
@@ -149,7 +162,7 @@ function ServiceStatus() {
           </div>
           
           <h5>Outages:</h5>
-          {outages?.length > 0 &&outages.map((outage, index) => (
+          {outages?.length > 0 && outages.map((outage, index) => (
             <div className="outage-section" key={index}>
               <h4>Outage {index + 1}:</h4>
               {outage.reason && <p> <b>Reason:</b> {outage.reason}</p>}
