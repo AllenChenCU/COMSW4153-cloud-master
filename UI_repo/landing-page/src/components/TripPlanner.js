@@ -47,9 +47,9 @@ function TripPlanner() {
 
       setLoading(false);
     }).catch(error => {
-      console.error(error);
+      // console.error(error);
       setLoading(false);
-      setErrorMessage(error.message);
+      setErrorMessage('Address not found');
 
     })
 
@@ -66,12 +66,12 @@ function TripPlanner() {
       <form className="trip-form">
         <div className="input-group">
           <label className="trip-label">From</label>
-          <input type="text" placeholder="Address, station, landmark" className="trip-input" disabled={isLoading} onChange={(e) => {setFrom(e.target.value);}}/>
+          <input type="text" placeholder="Address Source (i.e. Bronx) " className="trip-input" disabled={isLoading} onChange={(e) => {setFrom(e.target.value);}}/>
         </div>
         
         <div className="input-group">
           <label className="trip-label">To</label>
-          <input type="text" placeholder="Address, station, landmark" className="trip-input" disabled={isLoading} onChange={(e) => {setTo(e.target.value);}}/>
+          <input type="text" placeholder="Address Destination (i.e. Queens)" className="trip-input" disabled={isLoading} onChange={(e) => {setTo(e.target.value);}}/>
         </div>
         
         {/* <div className="time-options">
