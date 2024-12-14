@@ -22,14 +22,14 @@ function SearchResults() {
       const addRoute = (from, to ,route) => {
         setLoading(true);
         const query_id = uuid()
+        const token = localStorage.getItem('jwtToken');
         
         fetch('http://localhost:3000/save-route', {
           method: 'POST',
           body: JSON.stringify({"source": from, "destination": to, "user_id": `${userInfo.id}`, "query_id": query_id,  "to_email": userInfo.email, "route": route }),
           headers: {
             'Content-Type': 'application/json',
-            'Accept': 'application/json',
-            'Access-Control-Allow-Origin': '*'
+            'Authorization': `Bearer ${token}`
           },
         }).then(response => {
           if (!response.ok) {
@@ -37,7 +37,6 @@ function SearchResults() {
           }
           return response.json();
         }).then(data => {
-          console.log('data:', data);
           setMessage(data.message + " Check your email for confirmation!");
           setTimeout(() => {
             setMessage('');

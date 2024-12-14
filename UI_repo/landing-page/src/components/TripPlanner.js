@@ -19,6 +19,7 @@ function TripPlanner() {
   const handleSubmit = (event) => {
     event.preventDefault();
     // Add your trip planning logic here
+    const token = localStorage.getItem('jwtToken');
     setSearchRoutes([]);
     setServiceStatuses([]);
     setLoading(true);
@@ -27,8 +28,7 @@ function TripPlanner() {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        'Access-Control-Allow-Origin': '*'
+        'Authorization': `Bearer ${token}`,
       },
     }).then(response => {
       if (!response.ok) {
@@ -36,14 +36,12 @@ function TripPlanner() {
       }
       return response.json();
     }).then(data => {
-      console.log('data:', data);
       setSearchRoutes(data['routes']);
       setSavedFrom(from);
       setSavedTo(to);
       const uniqueStations = Array.from(
         new Map(data['stations'].map(station => [station.station, station])).values()
       );
-      console.log('uniqueStations:', data['stations']);
       setServiceStatuses(uniqueStations);
 
       setLoading(false);

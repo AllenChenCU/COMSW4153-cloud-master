@@ -9,7 +9,6 @@ import { Navigate, useNavigate } from 'react-router-dom';
 function SearchHistory() {
  const [searchHistory, setSearchHistory] = useState([]);
  const userInfo = useStore((state) => state.userInfo);
- console.log('userInfo:', userInfo);
  const loading = useStore((state) => state.loading);
  const setLoading = useStore((state) => state.setLoading);
  const [error , setError] = useState(null);
@@ -21,13 +20,13 @@ function SearchHistory() {
  const limit = 6;
 
  const search = useCallback(() => {
+  const token = localStorage.getItem('jwtToken');
   setLoading(true);
   fetch(`http://localhost:3000/query-all-routes-by-user?user_id=${userInfo?.id}&limit=${limit}&page=${currentPage}`, 
   { method: 'GET' ,
   headers: {
     'Content-Type': 'application/json',
-    'Accept': 'application/json',
-    'Access-Control-Allow-Origin': '*'
+    'Authorization': `Bearer ${token}`
   }})
     .then(response => response.json())
     .then(data => {

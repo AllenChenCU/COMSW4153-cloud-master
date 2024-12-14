@@ -9,26 +9,10 @@ import useStore from '../state/useStore';
 import SavedRoutes from './SavedRoutes';
 
 function LoginLandingPage() {
-  // set user state jwt token here 
-  const setUserInfo = useStore((state) => state.setUserInfo);
   const userInfo = useStore((state) => state.userInfo);
   const searchRoutes = useStore((state) => state.searchRoutes);
   const [showSavedRoutes, setShowSavedRoutes] = useState(false);
   const errorMessage = useStore((state) => state.errorMessage);
-
-  // TODO update and change 
-  useEffect(() => {
-    if (!userInfo) {
-      fetch('/profile')
-      .then((response) => response.json())
-      .then((data) => {
-        console.log('data:', data);
-        setUserInfo(data);
-      })
-      .catch((error) => console.error('Error fetching user:', error));
-    }
-    
-  }, [setUserInfo, userInfo]);
 
   useEffect(() => {
     if(userInfo && userInfo?.id){ 

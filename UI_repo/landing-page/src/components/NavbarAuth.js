@@ -20,6 +20,7 @@ function NavbarAuth({ isSearch }) {
         method: 'GET',
         credentials: 'same-origin',
       });
+      localStorage.removeItem('jwtToken');
       clear();
       navigate('/');
     } catch(error){

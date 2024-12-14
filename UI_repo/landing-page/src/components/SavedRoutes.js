@@ -23,16 +23,15 @@ function SavedRoutes() {
 
 
     const refresh = useCallback(() => {
+      const token = localStorage.getItem('jwtToken');
       setLoading(true);
       setSavedRoutesLoading(true);
-      console.log("Getting saved routes and stations for user: ", userInfo?.id);
 
       fetch(`http://localhost:3000/get-saved-routes-and-stations?user_id=${userInfo?.id}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
-          'Accept': 'application/json',
-          'Access-Control-Allow-Origin': '*'
+          'Authorization': `Bearer ${token}`,
         },
       }).then(response => {
         if (!response.ok) {
@@ -51,11 +50,12 @@ function SavedRoutes() {
     });
     } , [setLoading, setSavedRoutes, userInfo?.id]);
 
+
     useEffect(() => {
-      if (savedRoutes.length === 0) {
+      if (savedRoutes.length === 0 && userInfo?.id) {
         refresh();
       }
-    }, [refresh, savedRoutes.length]);
+    }, [refresh, savedRoutes.length, userInfo?.id]);
 
 
 

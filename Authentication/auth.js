@@ -1,12 +1,21 @@
+const dotenv = require('dotenv');
+dotenv.config({ path: '../.env' });
+let jwtSecret = process.env.JWT_SECRET;
+const clientID = process.env.CLIENT_ID;
+
+const clientSecret = process.env.CLIENT_SECRET;
+
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const pool = require('./db');
+const jwt = require('jsonwebtoken');
+
 
 passport.use(
   new GoogleStrategy(
     {
-      clientID: '1009253074391-v1vikqme5euagepgddnasta6mgtf3btv.apps.googleusercontent.com',
-      clientSecret: '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',
+      clientID: clientID,
+      clientSecret: clientSecret,
       callbackURL: 'https://access-nyc-437301-k9.ue.r.appspot.com/auth/google/callback' // 'http://localhost:8080/auth/google/callback'
     },
     async (accessToken, refreshToken, profile, done) => {
@@ -18,7 +27,9 @@ passport.use(
 
         if (results.length > 0) {
           // User exists
-          return done(null, results[0]);
+          const user = results[0];
+          const token = jwt.sign( { id: user.provider_id, email: user.email, displayName: user.displayName }, jwtSecret, { expiresIn: '7d' });
+          return done(null, { ...user, token });
         } else {
           // User does not exist, insert into database
           const newUser = {
@@ -33,8 +44,8 @@ passport.use(
             [newUser.provider_id, newUser.displayName, newUser.email]
           );
 
-          console.log('New user inserted:', newUser);
-          return done(null, newUser);
+          const token = jwt.sign( { id: newUser.provider_id, email: newUser.email, displayName: newUser.displayName }, jwtSecret , { expiresIn: '7d' });
+          return done(null, { ...newUser, token });
         }
       } catch (err) {
         console.error('Database error:', err);
@@ -52,7 +63,9 @@ passport.deserializeUser(async (id, done) => {
   try {
     const [results] = await pool.query('SELECT * FROM users WHERE provider_id = ?', [id]);
     if (results.length > 0) {
-      done(null, results[0]);
+      const user = results[0];
+      const token = jwt.sign({ id: user.provider_id, email: user.email, displayName: user.displayName }, jwtSecret, { expiresIn: '7d' });
+      done(null, { ...user, token });
     } else {
       done(null, false);
     }

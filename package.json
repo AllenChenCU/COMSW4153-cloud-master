@@ -2,9 +2,12 @@
   "dependencies": {
     "axios": "^1.7.9",
     "cors": "^2.8.5",
+    "crypto": "^1.0.1",
+    "dotenv": "^16.4.7",
     "express": "^4.21.2",
     "express-session": "^1.18.1",
     "http-proxy-middleware": "^3.0.3",
+    "jsonwebtoken": "^9.0.2",
     "mysql2": "^3.11.5",
     "passport": "^0.7.0",
     "passport-google-oauth20": "^2.0.0"

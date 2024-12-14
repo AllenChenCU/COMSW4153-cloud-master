@@ -11,6 +11,7 @@ import Testimonials from './components/Testimonials';
 import Footer from './components/Footer';
 import LoginLandingPage from './components/LoginLandingPage';
 import SearchHistory from './components/SearchHistory';
+import OAuthCallback from './components/OAuthCallback';
 import './App.css';
 
 function MainLandingPage() {
@@ -37,6 +38,8 @@ function App() {
         <Route path="/" element={<MainLandingPage />} />
         <Route path="/login" element={<LoginLandingPage />} />
         <Route path='/history' element={<SearchHistory />} />
+        <Route path="/oauth/callback" element={<OAuthCallback/>} />
+        <Route path='*' element={<MainLandingPage />} />
       </Routes>
     </Router>
   );

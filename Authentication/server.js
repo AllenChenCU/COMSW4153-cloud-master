@@ -2,11 +2,20 @@ const express = require('express');
 const session = require('express-session');
 const passport = require('./auth'); 
 const path = require('path');
+const jwtSecret = process.env.JWT_SECRET;
 const { createProxyMiddleware } = require('http-proxy-middleware');
 const { exec } = require('child_process');
+const cors = require('cors');
+
 
 const app = express();
 const PORT = 8080; 
+
+app.use(cors({
+  origin: '*',  // You can replace '*' with specific origins for added security
+  methods: ['GET', 'POST'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
 
 app.use(session({
   secret: 'your-session-secret',
@@ -18,7 +27,7 @@ app.use(passport.session());
 
 // Routes
 app.get('/auth/google', (req, res, next) => {
-  console.log('Auth route triggered');
+  // console.log('Auth route triggered');
   passport.authenticate('google', { scope: ['profile', 'email'] })(req, res, next);
 });
 
@@ -26,13 +35,13 @@ app.get('/auth/google', (req, res, next) => {
 app.get('/auth/google/callback',
   passport.authenticate('google', { failureRedirect: '/' }),
   (req, res) => {
-    console.log('Authenticated user:', req.user);
-    res.redirect('/login');
+    // console.log('Authenticated user:', req.user);
+    res.redirect('/oauth/callback');
   },
   (err, req, res, next) => {
     if (err) {
       console.error('Error during authentication:', err);
-      return res.redirect('/'); 
+      res.redirect('/');
     }
     next();
   }
@@ -52,12 +61,17 @@ app.get('/profile', (req, res) => {
   if (!req.isAuthenticated()) {
     return res.status(401).json({ error: 'Not authenticated' });
   }
+
+  // console.log('Authenticated user:', req.user);
   res.json({
     id: req.user.id,
     displayName: req.user.displayName,
     email: req.user.email,
-  });
+    token: req.user.token
+  }
+);
 });
+
 
 app.use((req, res, next) => {
   res.setHeader('Cache-Control', 'no-store');

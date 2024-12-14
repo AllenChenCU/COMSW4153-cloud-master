@@ -36,14 +36,14 @@ function ServiceStatus() {
   
 
     if (stations.length > 0) {
-      
+      const token = localStorage.getItem('jwtToken');
+       
       Promise.all(stations.map(route => 
         fetch(`http://3.84.62.68:5001/outages/${route}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
-            'Accept': 'application/json',
-            'Access-Control-Allow-Origin': '*',
+            'Authorization': `Bearer ${token}`,
 
           },
         })
@@ -59,7 +59,7 @@ function ServiceStatus() {
         })
       ))
       .then(results => {
-        console.log('results:', results);
+
         const outagesDataMap = stations.reduce((acc, route, index) => {
           if (results[index] !== null) {
             acc[route] = results[index];
@@ -82,11 +82,6 @@ function ServiceStatus() {
 
   }, [searchRoutes, setLoading]);
   
-
-  console.log('outagesData:', outagesData);
-  console.log('servicesKey:', servicesKey);
-  console.log('serviceStatuses:', serviceStatuses);
-   
   return (
     <section className="service-status">
     <h3 className="status-title">Service Status</h3>
