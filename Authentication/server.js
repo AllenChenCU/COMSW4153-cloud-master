@@ -52,7 +52,10 @@ app.get('/logout', (req, res) =>{
     if(err){
       return res.status(500).json({error: 'Failed to log out.'});
     }
-    res.redirect('/');
+    req.session.destroy(() => {
+      res.clearCookie('connect.sid');
+      res.redirect('/');
+    });
   });
 });
 
