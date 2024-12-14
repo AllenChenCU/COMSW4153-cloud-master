@@ -36,11 +36,11 @@ function NavbarAuth({ isSearch }) {
     <div>
       <nav className="navbar">
         <div className="navbar-left">
-          <button className="menu-button" onClick={toggleSidebar}>
+          {/*<button className="menu-button" onClick={toggleSidebar}>
             Menu
-          </button>
+          </button>*/}
           <div className="logo">
-            <img src="path/to/logo.png" alt="AccessNYC Logo" className="logo-icon" />
+            {/*<img src="path/to/logo.png" alt="AccessNYC Logo" className="logo-icon" />*/}
             <span className="logo-text">AccessNYC</span>
           </div>
           {logoutError && <p className="error-message">{logoutError}</p>}

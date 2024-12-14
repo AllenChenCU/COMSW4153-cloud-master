@@ -16,10 +16,10 @@ function Navbar() {
           {/*<button className="menu-button" onClick={toggleSidebar}>
             Menu
           </button>*/}
-          {/*<div className="logo">
-            <img src="path/to/logo.png" alt="AccessNYC Logo" className="logo-icon" />
+          <div className="logo">
+            {/*<img src="path/to/logo.png" alt="AccessNYC Logo" className="logo-icon" />*/}
             <span className="logo-text">AccessNYC</span>
-          </div>*/}
+          </div>
         </div>
         {/* <div className="navbar-right">
           <button className="nav-button">Real-time Updates</button>
