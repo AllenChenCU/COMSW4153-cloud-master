@@ -11,7 +11,7 @@ function HeroSection() {
       <div className="hero-content">
         <h1 className="hero-title">Find Accessible Routes Now NYC With</h1>
         <p className="hero-subtitle">
-          Heyyy Access NYC: Navigate the MTA with ease and accessibility in mind for individuals with mobility impairments.
+          Access NYC: Navigate the MTA with ease and accessibility in mind for individuals with mobility impairments.
         </p>
         <button
             className="cta-button"
