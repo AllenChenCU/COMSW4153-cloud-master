@@ -9,6 +9,7 @@ function NavbarAuth({ isSearch }) {
   const navigate = useNavigate();
   const clear = useStore((state) => state.clearState);
   const setErrorMessage = useStore((state) => state.setError);
+  const [logoutError, setLogoutError] = useState(''); 
 
   const toggleSidebar = () => {
     setSidebarOpen(!isSidebarOpen);
@@ -25,6 +26,8 @@ function NavbarAuth({ isSearch }) {
       navigate('/');
     } catch(error){
       console.error('Error logging out: ', error);
+      setLogoutError('Error logging out. Please try again.');
+      setTimeout(() => setLogoutError(''), 1000);
     }
   };
 
@@ -39,9 +42,10 @@ function NavbarAuth({ isSearch }) {
             <img src="path/to/logo.png" alt="AccessNYC Logo" className="logo-icon" />
             <span className="logo-text">AccessNYC</span>
           </div>
+          {logoutError && <p className="error-message">{logoutError}</p>}
         </div>
         <div className="navbar-right">
-        <button className='nav-button' onClick={() => {(isSearch ? navigate('/login') : navigate('/history')); setErrorMessage('');}}> {isSearch ? 'Back' : 'Show History'} </button>
+        <button className='nav-button' onClick={() => {setErrorMessage(''); setLogoutError(''); (isSearch ? navigate('/login') : navigate('/history')); }}> {isSearch ? 'Back' : 'Show History'} </button>
         <button className="nav-button" onClick={handleLogout}>Logout</button>
           {/*<button className="nav-button">Real-time Updates</button>
           <button className="nav-button">Accessible Routes</button>

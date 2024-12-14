@@ -1,5 +1,5 @@
 // src/components/ServiceStatus.js
-import React, { useEffect,useState } from 'react';
+import React, { useEffect,useState, useMemo } from 'react';
 import './ServiceStatus.css';
 import useStore from '../state/useStore';
 
@@ -12,7 +12,7 @@ function ServiceStatus() {
    const [servicesKey, setServicesKey] = useState([]);
    const [outagesData, setOutagesData] = useState([]);
    const [error, setError] = useState(null);
-   let currentErrors = [];
+   const currentErrors = useMemo(() => [], []);
 
 
    useEffect(() => {
@@ -40,7 +40,7 @@ function ServiceStatus() {
       const token = localStorage.getItem('jwtToken');
        
       Promise.all(stations.map(route => 
-        fetch(`https://comsw4153-mta-service-973496949602.us-central1.run.app/outages/${route}`, {
+        fetch(`https://comsw4153-mta-service-973496949602.us-central1.run.app/protected-outages/${route}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -109,7 +109,7 @@ function ServiceStatus() {
         <div className="status-header">
           <h4>Station: {serviceKey}</h4>
         </div>
-        <p>Error: {error}</p>
+        <p>No Information Available.</p>
       </div>
     );
   }else if (status || outages) {
@@ -125,23 +125,7 @@ function ServiceStatus() {
             {status?.length > 0 && status.map((status, index) => (
               <div className="equipment-section" key={index}>
                 <h4>Equipment {index + 1}:</h4>
-                {status.serving && <p> <b>Serving Line:</b>{status.serving}</p>}
-                {status.trainno && <p> <b>Train no.:</b> {status.trainno}</p>}
-                {status.equipmentno && <p> <b>Equipment no.:</b>{status.equipmentno}</p>}
-                {status.equipmenttype && <p> <b>Equipment type:</b> {status.equipmenttype}</p>}
-                {status.ADA && <p> <b>ADA:</b>{status.ADA}</p>}
-                {status.isactive && <p> <b>isActive:</b> {status.isactive}</p>}
-                {status.shortdescription && <p> <b>Short description:</b> {status.shortdescription}</p>}
-                {status.lineservedbyelevator && <p><b>Line served by Elevator:</b>{status.lineservedbyelevator}</p>}
-                {status.nextadanorth && <p> <b>Next ADA north:</b> {status.nextadanorth}</p>}
-                {status.nextadasouth && <p> <b>Next ADA south:</b> {status.nextadasouth}</p>}
-                {status.busconnections && <p> <b>Bus connections:</b>{status.busconnections}</p>}
-                {status.alternateroute && <p> <b>Alternate Route:</b>{status.alternateroute}</p>}
-                {status.estimatedreturntoservice && <p> <b>Estimated Return:</b>{status.estimatedreturntoservice}</p>}
-
-                {index !== status.length - 1 && <hr />}
-
-                {!(
+                                {(
                   status.serving || 
                   status.trainno || 
                   status.equipmentno || 
@@ -155,7 +139,27 @@ function ServiceStatus() {
                   status.busconnections || 
                   status.alternateroute || 
                   status.estimatedreturntoservice
-                ) && <p>No equipment information available.</p>}
+                ) ? (
+                  <div>
+                    {status.serving && <p> <b>Serving Line:</b>{status.serving}</p>}
+                    {status.trainno && <p> <b>Train no.:</b> {status.trainno}</p>}
+                    {status.equipmentno && <p> <b>Equipment no.:</b>{status.equipmentno}</p>}
+                    {status.equipmenttype && <p> <b>Equipment type:</b> {status.equipmenttype}</p>}
+                    {status.ADA && <p> <b>ADA:</b>{status.ADA}</p>}
+                    {status.isactive && <p> <b>isActive:</b> {status.isactive}</p>}
+                    {status.shortdescription && <p> <b>Short description:</b> {status.shortdescription}</p>}
+                    {status.lineservedbyelevator && <p><b>Line served by Elevator:</b>{status.lineservedbyelevator}</p>}
+                    {status.nextadanorth && <p> <b>Next ADA north:</b> {status.nextadanorth}</p>}
+                    {status.nextadasouth && <p> <b>Next ADA south:</b> {status.nextadasouth}</p>}
+                    {status.busconnections && <p> <b>Bus connections:</b>{status.busconnections}</p>}
+                    {status.alternateroute && <p> <b>Alternate Route:</b>{status.alternateroute}</p>}
+                    {status.estimatedreturntoservice && <p> <b>Estimated Return:</b>{status.estimatedreturntoservice}</p>}
+                  </div>
+                ) : (
+                  <p>No equipment information available.</p>
+                )}
+                {index !== status.length - 1 && <hr />}
+
               </div>
             ))}
             {status?.length === 0  && <p>No equipment information available</p>}
@@ -165,11 +169,23 @@ function ServiceStatus() {
           {outages?.length > 0 && outages.map((outage, index) => (
             <div className="outage-section" key={index}>
               <h4>Outage {index + 1}:</h4>
-              {outage.reason && <p> <b>Reason:</b> {outage.reason}</p>}
-              {outage.estimatedreturntoservice && <p> <b>Estimated Return:</b> {outage.estimatedreturntoservice}</p>}
-              {outage.serving && <p> <b>Serving:</b>{outage.serving}</p>}
-              {outage.station && <p><b>Station:</b>{outage.station}</p>}
-              {outage.trainno && <p><b>Train No:</b>: {outage.trainno}</p>}
+                            {(
+                outage.reason || 
+                outage.estimatedreturntoservice || 
+                outage.serving || 
+                outage.station || 
+                outage.trainno
+              ) ? (
+                <div>
+                  {outage.reason && <p> <b>Reason:</b> {outage.reason}</p>}
+                  {outage.estimatedreturntoservice && <p> <b>Estimated Return:</b> {outage.estimatedreturntoservice}</p>}
+                  {outage.serving && <p> <b>Serving:</b>{outage.serving}</p>}
+                  {outage.station && <p><b>Station:</b>{outage.station}</p>}
+                  {outage.trainno && <p><b>Train No:</b>: {outage.trainno}</p>}
+                </div>
+              ) : (
+                <p>No Active Outages.</p>
+              )}
             </div>
           ))}
           {outages?.length === 0 && <p>No Active Outages</p>}

@@ -50,7 +50,7 @@ app.get("/query-routes-and-stations", validateAuthHeader, async(req, res) =>{
   try{
     const { source, destination, user_id } = req.query;
 
-    const response = await axios.get(`${COMPOSITE_SERVICE_URL}/query-routes-and-stations/`,{
+    const response = await axios.get(`${COMPOSITE_SERVICE_URL}/protected-query-routes-and-stations/`,{
       params: {source, destination, user_id},
       headers:{
         'Authentication': `Bearer ${req.token}`
@@ -69,7 +69,7 @@ app.get("/query-routes-and-stations", validateAuthHeader, async(req, res) =>{
 //{"message":"Route is successfully saved!","route_id":"b07e4b46-5b71-45d2-b123-d0ac194a92ed","user_id":"123"....
 app.post("/save-route", validateAuthHeader, async(req, res) => {
   try{
-    const response = await axios.post(`${COMPOSITE_SERVICE_URL}/save-route/`, req.body,{
+    const response = await axios.post(`${COMPOSITE_SERVICE_URL}/protected-save-route/`, req.body,{
       headers: {
         "Content-Type": "application/json", 
         'Authentication': `Bearer ${req.token}`
@@ -90,7 +90,7 @@ app.put('/unsave-route', validateAuthHeader, async(req, res) => {
   const { route_id } = req.query;
   try{
     console.log("Unsaving route with ID: ", route_id);
-    const response = await axios.put(`${COMPOSITE_SERVICE_URL}/unsave-route/`, null,{
+    const response = await axios.put(`${COMPOSITE_SERVICE_URL}/protected-unsave-route/`, null,{
       params: {route_id},
       headers:{
         'Authentication': `Bearer ${req.token}`
@@ -110,7 +110,7 @@ app.put('/unsave-route', validateAuthHeader, async(req, res) => {
 app.get("/get-saved-routes-and-stations", validateAuthHeader, async (req, res) => {
   try{
     const { user_id } = req.query;
-    const response = await axios.get(`${COMPOSITE_SERVICE_URL}/get-saved-routes-and-stations/`, {
+    const response = await axios.get(`${COMPOSITE_SERVICE_URL}/protected-get-saved-routes-and-stations/`, {
       params: {user_id},
       headers:{
         'Authentication': `Bearer ${req.token}`
@@ -130,7 +130,7 @@ app.get("/get-saved-routes-and-stations", validateAuthHeader, async (req, res) =
 app.get("/query-all-routes-by-user", validateAuthHeader, async (req, res) => {
   try {
     const {user_id, limit, page} = req.query;
-    const response = await axios.get(`${COMPOSITE_SERVICE_URL}/query-all-routes-by-user/`,{
+    const response = await axios.get(`${COMPOSITE_SERVICE_URL}/protected-query-all-routes-by-user/`,{
       params: {user_id, limit, page},
       headers:{
         'Authentication': `Bearer ${req.token}`

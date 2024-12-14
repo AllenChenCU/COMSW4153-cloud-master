@@ -31,7 +31,9 @@ function OAuthCallback() {
                       id: data.id,
                       displayName: data.displayName,
                       email: data.email});
+
                     localStorage.setItem('jwtToken', data.token);
+
                     navigate('/login');
                   } else {
                     setErrorLoginMessage('Authentication failed. Please try again.');
@@ -59,14 +61,6 @@ function OAuthCallback() {
     }
 
     return (
-    // <div className="App">
-    //             <Navbar />
-    //             <div class="spinner-border text-primary" role="status" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', zIndex: '3' , margin: '50px'}}>
-    //     {/* <span class="sr-only">Loading...</span> */}
-    //   </div> 
-
-    //     <Footer />
-    // </div>
     <div className="App">
     <Navbar />
     <div class="spinner-border text-primary" role="status" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', zIndex: '3' , margin: '50px'}}>
