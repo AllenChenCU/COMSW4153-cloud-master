@@ -22,6 +22,7 @@ function NavbarAuth({ isSearch }) {
         credentials: 'same-origin',
       });
       localStorage.removeItem('jwtToken');
+      localStorage.removeItem('accessNYC-store');
       clear();
       navigate('/');
     } catch(error){

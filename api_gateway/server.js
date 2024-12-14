@@ -53,7 +53,7 @@ app.get("/query-routes-and-stations", validateAuthHeader, async(req, res) =>{
     const response = await axios.get(`${COMPOSITE_SERVICE_URL}/protected-query-routes-and-stations/`,{
       params: {source, destination, user_id},
       headers:{
-        'Authentication': `Bearer ${req.token}`
+        'Authorization': `Bearer ${req.token}`
       }
     });
     res.status(response.status).json(response.data);
@@ -72,7 +72,7 @@ app.post("/save-route", validateAuthHeader, async(req, res) => {
     const response = await axios.post(`${COMPOSITE_SERVICE_URL}/protected-save-route/`, req.body,{
       headers: {
         "Content-Type": "application/json", 
-        'Authentication': `Bearer ${req.token}`
+        'Authorization': `Bearer ${req.token}`
       }
     });
     res.status(response.status).json(response.data);
@@ -93,7 +93,7 @@ app.put('/unsave-route', validateAuthHeader, async(req, res) => {
     const response = await axios.put(`${COMPOSITE_SERVICE_URL}/protected-unsave-route/`, null,{
       params: {route_id},
       headers:{
-        'Authentication': `Bearer ${req.token}`
+        'Authorization': `Bearer ${req.token}`
       }
     });
     res.status(response.status).json(response.data);
@@ -113,7 +113,7 @@ app.get("/get-saved-routes-and-stations", validateAuthHeader, async (req, res) =
     const response = await axios.get(`${COMPOSITE_SERVICE_URL}/protected-get-saved-routes-and-stations/`, {
       params: {user_id},
       headers:{
-        'Authentication': `Bearer ${req.token}`
+        'Authorization': `Bearer ${req.token}`
       }
     });
     res.status(response.status).json(response.data);
@@ -133,7 +133,7 @@ app.get("/query-all-routes-by-user", validateAuthHeader, async (req, res) => {
     const response = await axios.get(`${COMPOSITE_SERVICE_URL}/protected-query-all-routes-by-user/`,{
       params: {user_id, limit, page},
       headers:{
-        'Authentication': `Bearer ${req.token}`
+        'Authorization': `Bearer ${req.token}`
       }
     });
     res.status(response.status).json(response.data);

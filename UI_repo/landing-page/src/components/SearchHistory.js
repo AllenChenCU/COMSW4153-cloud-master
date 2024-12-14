@@ -54,6 +54,8 @@ function SearchHistory() {
             method: 'GET',
             credentials: 'same-origin',
           });
+          localStorage.removeItem('accessNYC-store');
+          localStorage.removeItem('jwtToken');
           clear();
           navigate('/');
     }

@@ -26,6 +26,7 @@ function SavedRoutes() {
       const token = localStorage.getItem('jwtToken');
       setLoading(true);
       setSavedRoutesLoading(true);
+      setErrorMessage('');
 
       fetch(`http://localhost:3000/get-saved-routes-and-stations?user_id=${userInfo?.id}`, {
         method: 'GET',
@@ -119,7 +120,11 @@ function SavedRoutes() {
       }
       
       if (errorMessage) {
-        return <div className="error-message">{errorMessage}</div>;
+        return (<>
+        <button className="btn btn-primary" style={{marginBottom: '10px'}} onClick={() => refresh()} disabled={savedRoutesLoading}>Refresh</button>
+        <div className="error-message">{errorMessage}</div>
+        </>
+      );
       }
 
       return (

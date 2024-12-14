@@ -38,14 +38,14 @@ function ServiceStatus() {
 
     if (stations.length > 0) {
       const token = localStorage.getItem('jwtToken');
+      console.log('token', token);
        
       Promise.all(stations.map(route => 
-        fetch(`https://comsw4153-mta-service-973496949602.us-central1.run.app/protected-outages/${route}`, {
+        fetch(`https://comsw4153-mta-service-973496949602.us-central1.run.app/outages/${route}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${token}`,
-
           },
         })
         .then(response => {
@@ -55,7 +55,7 @@ function ServiceStatus() {
           return response.json();
         })
         .catch(error => {
-          console.error(`Error fetching route ${route}:`, error);
+          // console.error(`Error fetching route ${route}:`, error);
           currentErrors[route] = { outages: 'No outages' };
 
           return { outages: 'No outages' };
@@ -84,7 +84,7 @@ function ServiceStatus() {
         setLoading(false);
       })
       .catch(error => {
-        console.error('Error in Promise.all:', error);
+        // console.error('Error in Promise.all:', error);
         setLoading(false);
         setError(error.message);
       });
@@ -125,21 +125,21 @@ function ServiceStatus() {
             {status?.length > 0 && status.map((status, index) => (
               <div className="equipment-section" key={index}>
                 <h4>Equipment {index + 1}:</h4>
-                                {(
-                  status.serving || 
-                  status.trainno || 
-                  status.equipmentno || 
-                  status.equipmenttype || 
-                  status.ADA || 
-                  status.isactive || 
-                  status.shortdescription || 
-                  status.lineservedbyelevator || 
-                  status.nextadanorth || 
-                  status.nextadasouth || 
-                  status.busconnections || 
-                  status.alternateroute || 
-                  status.estimatedreturntoservice
-                ) ? (
+                {(
+                  (status.serving && status.serving !== '') ||
+                  (status.trainno && status.trainno !== '') ||
+                  (status.equipmentno && status.equipmentno !== '') ||
+                  (status.equipmenttype && status.equipmenttype !== '') ||
+                  (status.ADA && status.ADA !== '') ||
+                  (status.isactive && status.isactive !== '') ||
+                  (status.shortdescription && status.shortdescription !== '') ||
+                  (status.lineservedbyelevator && status.lineservedbyelevator !== '') ||
+                  (status.nextadanorth && status.nextadanorth !== '') ||
+                  (status.nextadasouth && status.nextadasouth !== '') ||
+                  (status.busconnections && status.busconnections !== '') ||
+                  (status.alternateroute && status.alternateroute !== '') ||
+                  (status.estimatedreturntoservice && status.estimatedreturntoservice !== '')
+                )  ? (
                   <div>
                     {status.serving && <p> <b>Serving Line:</b>{status.serving}</p>}
                     {status.trainno && <p> <b>Train no.:</b> {status.trainno}</p>}
