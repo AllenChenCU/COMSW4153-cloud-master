@@ -38,8 +38,6 @@ function ServiceStatus() {
 
     if (stations.length > 0) {
       const token = localStorage.getItem('jwtToken');
-      console.log('token', token);
-       
       Promise.all(stations.map(route => 
         fetch(`https://comsw4153-mta-service-973496949602.us-central1.run.app/outages/${route}`, {
           method: 'GET',
@@ -93,14 +91,14 @@ function ServiceStatus() {
     }
 
 
-  }, [currentErrors, searchRoutes, setLoading]);
+  }, [currentErrors, searchRoutes, serviceStatuses, setLoading]);
   
   return (
     <section className="service-status">
     <h3 className="status-title">Service Status</h3>
     <div className="status-content">
     {servicesKey.map((serviceKey, index) => {
-  const status = serviceStatuses[0][serviceKey];
+  const status = serviceKey in serviceStatuses ? serviceStatuses[serviceKey] : [];
   const outages = currentErrors[serviceKey] ? [] : outagesData[serviceKey]
 
   if (error) {

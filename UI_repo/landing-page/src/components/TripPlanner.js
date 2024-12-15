@@ -40,9 +40,22 @@ function TripPlanner() {
       setSearchRoutes(data['routes']);
       setSavedFrom(from);
       setSavedTo(to);
-      const uniqueStations = Array.from(
-        new Map(data['stations'].map(station => [station.station, station])).values()
-      );
+
+      const uniqueStations = data['stations'].reduce((acc, current) => {
+        Object.keys(current).forEach((station) => {
+          if (!acc[station]) {
+            acc[station] = [];
+          }
+          current[station].forEach((detail) => {
+            const key = JSON.stringify(detail); 
+            if (!acc[station].some((existingDetail) => JSON.stringify(existingDetail) === key)) {
+              acc[station].push(detail);
+            }
+          });
+        });
+        return acc;
+      }, {});
+      
       setServiceStatuses(uniqueStations);
 
       setLoading(false);
